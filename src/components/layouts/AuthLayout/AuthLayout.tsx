@@ -11,7 +11,7 @@ const AuthLayout = (props: PropTypes) => {
     return (
         <>
             <PageHead title={title}/>
-            <section className="max-w-3xl 3xl:container p-6">{children}</section>
+            <section className="3xl:container p-6">{children}</section>
         </>
     )
 }
