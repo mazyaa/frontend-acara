@@ -1,24 +1,85 @@
-import { useState } from 'react';
+import { useState } from "react";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { IRegister } from "@/types/Auth";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import authServices from "@/services/auth";
+
+
+const registerSchema = yup.object().shape({
+  fullName: yup.string().required("Please enter your full name"),
+  username: yup.string().required("Please enter your username"),
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Please enter your email"),
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Please enter your password"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), ""], "Passwords must match")
+    .required("Please confirm your password"),
+});
 
 const useRegister = () => {
-    const [visiblePassword, setVisiblePassword] = useState({
-        password: false,
-        confirmPassword: false,
+  const router = useRouter();
+  const [visiblePassword, setVisiblePassword] = useState({
+    password: false,
+    confirmPassword: false,
+  });
+
+  // function for getting key password visibility and changing its value by parameter
+  // key can be 'password' or 'confirmPassword'
+  const handleVisiblePassword = (key: "password" | "confirmPassword") => {
+    setVisiblePassword({
+      ...visiblePassword, // get previous state
+      [key]: !visiblePassword[key], // set or update 'object state' by key from parameter
     });
+  };
 
-    // function for getting key password visibility and changing its value by parameter
-    // key can be 'password' or 'confirmPassword'
-    const handleVisiblePassword = (key: 'password' | 'confirmPassword') => {
-        setVisiblePassword({
-            ...visiblePassword, // get previous state
-            [key]: !visiblePassword[key], // set or update 'object state' by key from parameter
-        });
-    };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setError,
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+  });
 
-    return {
-        visiblePassword,
-        handleVisiblePassword
+  const registerServices = async (payload: IRegister) => {
+    const result = await authServices.register(payload);
+    return result;
+  }
+
+  const {mutate: mutateRegister, isPending: isPendingRegister} = useMutation({
+    mutationFn: registerServices,
+    onError(error) {
+      setError("root", {
+        message: error.message
+      });
+    },
+    onSuccess: () => {
+      router.push("/auth/register/success");
+      reset(); // reset form after successful registration
     }
-}
+  });
+
+  const handleRegister = (data: IRegister) => mutateRegister(data);
+
+  return {
+    visiblePassword,
+    handleVisiblePassword,
+    control,
+    handleSubmit,
+    handleRegister,
+    isPendingRegister,
+    errors,
+  };
+};
 
 export default useRegister;

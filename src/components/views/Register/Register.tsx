@@ -5,7 +5,7 @@ import Link from "next/link";
 import useRegister from "./useRegister";
 
 const Register = () => {
-  const { visiblePassword, handleVisiblePassword } = useRegister();
+  const { visiblePassword, handleVisiblePassword, control, handleSubmit, handleRegister, isPendingRegister } = useRegister();
   return (
     <>
       <div className="flex flex-col lg:flex-row h-full items-center justify-center gap-10 lg:gap-20 py-10">
