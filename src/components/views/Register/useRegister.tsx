@@ -41,21 +41,25 @@ const useRegister = () => {
     });
   };
 
+  // hooks from react for form handling
+  //destructuring control, handleSubmit, formState, reset, setError from useForm
   const {
     control,
     handleSubmit,
     formState: { errors },
     reset,
-    setError,
+    setError, // handling error manually from api response
   } = useForm({
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(registerSchema), // use function yupResolver form validation previously defined schema
   });
 
+  // function for registering user
   const registerServices = async (payload: IRegister) => {
     const result = await authServices.register(payload);
     return result;
   }
 
+  // useMutation from react-query for handling requests (POST) 
   const {mutate: mutateRegister, isPending: isPendingRegister} = useMutation({
     mutationFn: registerServices,
     onError(error) {
@@ -69,6 +73,7 @@ const useRegister = () => {
     }
   });
 
+  // function for handling form submission
   const handleRegister = (data: IRegister) => mutateRegister(data);
 
   return {
