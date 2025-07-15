@@ -9,16 +9,16 @@ import authServices from "@/services/auth";
 
 
 const registerSchema = yup.object().shape({
-  fullName: yup.string().required("Please enter your full name"),
-  username: yup.string().required("Please enter your username"),
+  fullName: yup.string().required("Please input your full name"),
+  userName: yup.string().required("Please input your username"),
   email: yup
     .string()
     .email("Invalid email format")
-    .required("Please enter your email"),
+    .required("Please input your email"),
   password: yup
     .string()
     .min(8, "Password must be at least 8 characters")
-    .required("Please enter your password"),
+    .required("Please input your password"),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password"), ""], "Passwords must match")
