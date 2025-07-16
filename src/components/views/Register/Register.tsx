@@ -39,9 +39,9 @@ const Register = () => {
           />
         </div>
         <Card>
-          <CardBody className="p-8">
-            <div className="flex flex-col gap-2">
-              <h1 className="text-2xl font-bold text-danger-500">
+          <CardBody className="p-4 lg:p-8">
+            <div className="flex mb-5 flex-col">
+              <h1 className="text-xl lg:text-2xl font-bold text-danger-500">
                 Create Account
               </h1>
               <p className="text-small">
