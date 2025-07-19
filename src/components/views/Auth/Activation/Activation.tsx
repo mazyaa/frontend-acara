@@ -2,8 +2,13 @@ import { Button } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-const ActivationSuccess = () => {
+interface PropTypes {
+  status: "success" | "failed";
+}
+
+const Activation = (props: PropTypes) => {
   const router = useRouter();
+  const { status } = props;
 
   return (
     <div className="flex w-screen flex-col">
@@ -17,16 +22,24 @@ const ActivationSuccess = () => {
         />
 
         <Image
-          src="/images/ilustration/success.svg"
+          src={
+            status === "success"
+              ? "/images/ilustration/success.svg"
+              : "/images/ilustration/pending.svg"
+          }
           alt="email send"
           width={200}
           height={200}
         />
 
-        <div className="items-center mt-4 flex flex-col justify-center gap-2 text-center">
-          <h1 className="text-xl font-bold text-danger">Activation Success</h1>
+        <div className="mt-4 flex flex-col items-center justify-center gap-2 text-center">
+          <h1 className="text-xl font-bold text-danger">
+            {status === "success" ? "Activation Success" : "Activation Failed"}
+          </h1>
           <p className="text-small font-semibold text-default-500">
-            Thank you for register account in Acara
+            {status === "success"
+              ? "Thank you for registering your account in Acara"
+              : "Confirmation code is invalid or has expired."}
           </p>
           <Button
             variant="bordered"
@@ -43,4 +56,4 @@ const ActivationSuccess = () => {
   );
 };
 
-export default ActivationSuccess;
+export default Activation;
