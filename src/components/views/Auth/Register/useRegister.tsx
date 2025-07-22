@@ -44,7 +44,7 @@ const useRegister = () => {
   // hooks from react for form handling
   //destructuring control, handleSubmit, formState, reset, setError from useForm
   const {
-    control,
+    control, // for controlling form inputs (get value, set value, etc.)
     handleSubmit,
     formState: { errors },
     reset,
