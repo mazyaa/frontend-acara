@@ -1,5 +1,5 @@
 import environment from "@/config/env";
-import NextAuth, { User } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import authServices from "@/services/auth.service";
 import { JWTExtended, SessionExtended, UserExtended } from "@/types/Auth";
@@ -22,7 +22,7 @@ export default NextAuth({
       name: "credentials",
       credentials: {
         identifier: { label: "identifier", type: "text" },
-        password: { label: "password", type: "passowrd" },
+        password: { label: "password", type: "password" },
       },
 
       // authorize function to handle login

@@ -15,7 +15,7 @@ const authServices = {
   getProfileWithToken: (token: string) => 
     instance.get(`${endpoint.AUTH}/me`, {
       headers: {
-        Authorization: `Bearee ${token}`,
+        Authorization: `Bearer ${token}`,
       }
     })
 };

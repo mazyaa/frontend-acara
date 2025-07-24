@@ -19,7 +19,7 @@ const useLogin = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const callbackUrl = (router.query.callbackUrl as string) || "/";
+  const callbackUrl : string = (router.query.callbackUrl as string) || "/";
 
   // hooks from react for form handling
   //destructuring control, handleSubmit, formState, reset, setError from useForm
