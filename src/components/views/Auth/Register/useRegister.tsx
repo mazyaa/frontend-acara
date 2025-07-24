@@ -37,7 +37,7 @@ const useRegister = () => {
   const handleVisiblePassword = (key: "password" | "confirmPassword") => {
     setVisiblePassword({
       ...visiblePassword, // get previous state
-      [key]: !visiblePassword[key], // set or update 'object state' by key from parameter
+      [key]: !visiblePassword[key], // set or update or assign 'object state' by key from parameter
     });
   };
 
@@ -45,7 +45,7 @@ const useRegister = () => {
   //destructuring control, handleSubmit, formState, reset, setError from useForm
   const {
     control, // for controlling form inputs (get value, set value, etc.)
-    handleSubmit,
+    handleSubmit, // for handling form submission (error handling, etc.)
     formState: { errors },
     reset,
     setError, // handling error manually from api response
@@ -59,7 +59,7 @@ const useRegister = () => {
     return result;
   }
 
-  // useMutation from react-query for handling requests (POST) 
+  // useMutation from react-query for handling requests (POST, GET, DELETE, etc.) 
   const {mutate: mutateRegister, isPending: isPendingRegister} = useMutation({
     mutationFn: registerServices,
     onError(error) {

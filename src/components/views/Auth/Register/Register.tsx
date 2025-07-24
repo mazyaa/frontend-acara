@@ -64,7 +64,8 @@ const Register = () => {
                 "flex w-80 flex-col",
                 Object.keys(errors).length > 0 ? "gap-2" : "gap-4",
               )}
-              onSubmit={handleSubmit(handleRegister)}
+              // for flow, if handleSubmit have been run validate by handleRegister schema, it will call handleRegister function
+              onSubmit={handleSubmit(handleRegister)} // no use arrow function because this function have a function for passing data
             >
               {/* Full Name Input */}
               <Controller
@@ -134,7 +135,7 @@ const Register = () => {
                       <button
                         className="focus:outline-none"
                         type="button"
-                        onClick={() => handleVisiblePassword("password")}
+                        onClick={() => handleVisiblePassword("password")} // mandatory to use arrow function to pass parameter because if not, it will call function when page render
                       >
                         {visiblePassword.password ? (
                           <FaEye className="text-xl text-default-400" />
