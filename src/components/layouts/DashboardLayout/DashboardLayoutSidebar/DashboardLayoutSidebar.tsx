@@ -25,7 +25,7 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
       className={cn(
         "lg:relative fixed z-50 flex h-screen w-full max-w-[300px] -translate-x-full flex-col justify-between border-r-1 border-default-200 bg-white px-4 py-6 transition-all lg:translate-x-0",
         {
-          "translate-x-0": isOpen,
+          "translate-x-0": isOpen, // if sidebar is open, translate to 0
         }
       )}
     >
