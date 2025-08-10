@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
 
     const { pathname } = request.nextUrl;
 
-    if (pathname === '/auth/login' || pathname === 'auth/register') {
+    if (pathname === '/auth/login' || pathname === '/auth/register') {
         if (token) {
             return NextResponse.redirect(new URL('/', request.url));
         }
@@ -48,5 +48,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher : ['/auth/:path*', '/admin/:path*', '/member/:path*'],
+    matcher : ['/admin/:path*', '/member/:path*'],
 }
