@@ -14,7 +14,7 @@ import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 
 const Category = () => {
   const { push } = useRouter();
-  const renderCell = useCallback(
+  const renderCell = useCallback( // use useCallback to optimize performance
     (category: Record<string, unknown>, columnKey: Key) => {
       const cellValue = category[columnKey as keyof typeof category];
 
