@@ -1,5 +1,5 @@
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react"
-import { Key } from "react";
+import { Input, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react"
+import { Key, useMemo } from "react";
 
 interface PropTypes {
     columns: Record<string, unknown>[];
@@ -8,9 +8,16 @@ interface PropTypes {
 }
 
 const DataTable = (props: PropTypes) => {
+     const topContent = useMemo(() => {
+    return(
+        <div className="flex flex-col-reverse items-start justify-beetween gap-y-4 lg:flex-row lg:items-center">
+          <Input isClearable className="w-full sm:max-w-[24%]"/>
+        </div>
+    )
+  }, []);
     const { columns, data, renderCell } = props;
     return(
-        <Table>
+        <Table topContent={topContent} topContentPlacement="outside">
             <TableHeader columns={columns}>
                 {(column) => (
                     <TableColumn key={column.uid as Key}>

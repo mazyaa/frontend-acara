@@ -5,6 +5,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Input,
 } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -15,7 +16,7 @@ import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 const Category = () => {
   const { push } = useRouter();
   const renderCell = useCallback( // use useCallback to optimize performance
-    (category: Record<string, unknown>, columnKey: Key) => {
+    (category: Record<string, unknown>, columnKey: Key) => { // Key = string | number
       const cellValue = category[columnKey as keyof typeof category];
 
       switch (columnKey) {
