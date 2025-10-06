@@ -55,17 +55,21 @@ const Category = () => {
   return (
     <section>
       <DataTable
-        renderCell={renderCell}
+        buttonTopContenLabel="Create Category"
         columns={COLUMN_LIST_CATEGORY}
         data={[
-            {
-                id: 1,
-                icon: "/images/general/logo.png",
-                name: "Category 1",
-                description: "This is category 1",
-            },
+          {
+            id: 1,
+            icon: "/images/general/logo.png",
+            name: "Category 1",
+            description: "This is category 1",
+          },
         ]}
-      ></DataTable>
+        onChangeSearch={() => {}}
+        onClearSeacrh={() => {}}
+        onClickButtonTopContent={() => {}}
+        renderCell={renderCell}
+        ></DataTable>
     </section>
   );
 };
