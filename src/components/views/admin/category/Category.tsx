@@ -12,11 +12,14 @@ import { useRouter } from "next/router";
 import { Key, ReactNode, useCallback } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
+import { LIMIT_LISTS } from "@/constants/list.constants";
 
 const Category = () => {
   const { push } = useRouter();
-  const renderCell = useCallback( // use useCallback to optimize performance
-    (category: Record<string, unknown>, columnKey: Key) => { // Key = string | number
+  const renderCell = useCallback(
+    // use useCallback to memoize the function, so it only re-created when dependencies change
+    (category: Record<string, unknown>, columnKey: Key) => {
+      // Key = string | number
       const cellValue = category[columnKey as keyof typeof category];
 
       switch (columnKey) {
@@ -41,7 +44,7 @@ const Category = () => {
                   Detail Catgeory
                 </DropdownItem>
                 <DropdownItem key="delete-category" className="text-danger-600">
-                  Delete    
+                  Delete
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -52,11 +55,13 @@ const Category = () => {
     },
     [push],
   );
+
   return (
     <section>
       <DataTable
         buttonTopContenLabel="Create Category"
         columns={COLUMN_LIST_CATEGORY}
+        currentPage={1}
         data={[
           {
             id: 1,
@@ -65,11 +70,16 @@ const Category = () => {
             description: "This is category 1",
           },
         ]}
+        emptyContent="No category found"
+        limit={LIMIT_LISTS[0].label}
+        onChangeLimit={() => {}}
+        onChangePage={() => {}}
         onChangeSearch={() => {}}
-        onClearSeacrh={() => {}}
+        onClearSearch={() => {}}
         onClickButtonTopContent={() => {}}
         renderCell={renderCell}
-        ></DataTable>
+        totalPages={2}
+      />
     </section>
   );
 };
