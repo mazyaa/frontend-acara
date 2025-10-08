@@ -1,4 +1,5 @@
 import { LIMIT_LISTS } from "@/constants/list.constants";
+import cn from "@/utils/cn";
 import {
   Button,
   Input,
@@ -22,7 +23,7 @@ interface PropTypes {
   currentPage: number;
   data: Record<string, unknown>[];
   emptyContent: string;
-  isloading: boolean;
+  isLoading?: boolean;
   limit: string;
   onChangeLimit: (e: ChangeEvent<HTMLSelectElement>) => void;
   onChangePage: (page: number) => void;
@@ -44,7 +45,7 @@ const DataTable = (props: PropTypes) => {
     data,
     emptyContent,
     limit,
-    isloading,
+    isLoading,
     onChangeLimit,
     onChangePage,
     onChangeSearch,
@@ -107,7 +108,7 @@ const DataTable = (props: PropTypes) => {
         />
       </div>
     );
-  }, [limit, currentPage]);
+  }, [limit, currentPage, onChangeLimit, onChangePage, totalPages]);
 
   return (
     <Table
@@ -115,6 +116,10 @@ const DataTable = (props: PropTypes) => {
       topContentPlacement="outside"
       bottomContent={BottomContent}
       bottomContentPlacement="outside"
+      classNames={{ 
+        base: "max-w-full",
+        wrapper: cn({"overflow-x-hidden": isLoading}),
+       }}
     >
       <TableHeader columns={columns}>
         {(column) => (
@@ -127,9 +132,9 @@ const DataTable = (props: PropTypes) => {
       <TableBody
         items={data}
         emptyContent={emptyContent}
-        isLoading={isloading}
+        isLoading={isLoading}
         loadingContent={
-          <div>
+          <div className="flex h-full w-full items-center justify-center bg-foreground-300/70 backdrop-blur-sm">
             <Spinner color="danger"/>
           </div>
         }
