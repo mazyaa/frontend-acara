@@ -12,8 +12,8 @@ const headers = {
 const instance = axios.create({
     baseURL: environtment.API_URL,
     headers,
-    timeout: 60 * 1000, // 60 seconds
-})
+    timeout: 60 * 1000, // 60 seconds, use timeout to avoid hanging requests, if the request takes longer than `timeout`, the request will be aborted
+});
 
 // Add a request interceptor to handle any pre-request logic
 instance.interceptors.request.use(
