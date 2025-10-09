@@ -1,4 +1,3 @@
-import { get } from "http";
 import endpoint from "./endpoint.constant";
 import instance from "@/libs/axios/instance";
 
