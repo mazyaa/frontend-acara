@@ -9,13 +9,20 @@ import {
 } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Key, ReactNode, useCallback } from "react";
+import { Key, ReactNode, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 import { LIMIT_LISTS } from "@/constants/list.constants";
+import useCategory from "./useCategory";
 
 const Category = () => {
-  const { push } = useRouter();
+  const { push, isReady } = useRouter();
+  const { setURL } = useCategory();
+
+  useEffect(() => {
+    setURL();
+  }, []);
+
   const renderCell = useCallback(
     // use useCallback to memoize the function, so it only re-created when dependencies change
     (category: Record<string, unknown>, columnKey: Key) => {
