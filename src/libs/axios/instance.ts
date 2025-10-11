@@ -1,6 +1,5 @@
 import environtment from '@/config/env'; // use @ for alias import src
 import axios from 'axios';
-import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react'; 
 import { SessionExtended } from '@/types/Auth';
 

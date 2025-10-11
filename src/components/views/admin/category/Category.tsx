@@ -17,7 +17,7 @@ import useCategory from "./useCategory";
 
 const Category = () => {
   const { push, isReady } = useRouter();
-  const { setURL } = useCategory();
+  const { setURL, dataCategory, isLoadingCategory } = useCategory();
 
   useEffect(() => {
     setURL();
