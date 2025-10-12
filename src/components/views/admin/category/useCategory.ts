@@ -48,9 +48,13 @@ const useCategory = () => {
     return {
         dataCategory,
         isLoadingCategory,
+        isRefetchingCategory,
         refetchCategory,
         
         setURL,
+        currentPage,
+        currentLimit,
+        currentSearch,
     }
 };
 
