@@ -91,6 +91,7 @@ const DataTable = (props: PropTypes) => {
           selectionMode="single"
           onChange={onChangeLimit}
           startContent={<p className="text-small">Show:</p>}
+          disallowEmptySelection
         >
           {LIMIT_LISTS.map((item) => (
             <SelectItem key={item.value} className="border-b-2">
@@ -98,14 +99,17 @@ const DataTable = (props: PropTypes) => {
             </SelectItem>
           ))}
         </Select>
-        <Pagination
+        {totalPages > 1 && (
+          <Pagination
           isCompact
           showControls
           color="danger"
           page={currentPage}
           total={totalPages}
           onChange={onChangePage}
+          loop // for looping pagination
         />
+        ) }
       </div>
     );
   }, [limit, currentPage, onChangeLimit, onChangePage, totalPages]);

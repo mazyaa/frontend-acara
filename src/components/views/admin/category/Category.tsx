@@ -17,7 +17,7 @@ import useCategory from "./useCategory";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
-  const { currentPage, currentLimit, currentSearch, setURL, dataCategory, isLoadingCategory, isRefetchingCategory } = useCategory();
+  const { currentPage, currentLimit, currentSearch, setURL, dataCategory, handleChangeLimit, handleChangePage, handleClearSearch, handleSearch, isLoadingCategory, isRefetchingCategory } = useCategory();
   console.log(dataCategory);
 
   useEffect(() => {
@@ -75,10 +75,10 @@ const Category = () => {
         emptyContent="No category found"
         isLoading={isLoadingCategory || isRefetchingCategory}
         limit={String(currentLimit)}
-        onChangeLimit={() => {}}
-        onChangePage={() => {}}
-        onChangeSearch={() => {}}
-        onClearSearch={() => {}}
+        onChangeLimit={handleChangeLimit}
+        onChangePage={handleChangePage}
+        onChangeSearch={handleSearch}
+        onClearSearch={handleClearSearch}
         onClickButtonTopContent={() => {}}
         renderCell={renderCell}
         totalPages={dataCategory ? dataCategory.pagination.totalPages : 1}

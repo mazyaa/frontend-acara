@@ -1,10 +1,13 @@
-import { LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/list.constants";
+import { DELAY, LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/list.constants";
+import useDebounce from "@/hooks/useDebounce";
 import categoryServices from "@/services/category.service";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { ChangeEvent } from "react";
 
 const useCategory = () => {
     const router = useRouter();
+    const debounce= useDebounce();
     const currentLimit = router.query.limit;
     const currentPage = router.query.page;
     const currentSearch = router.query.search;
@@ -27,7 +30,7 @@ const useCategory = () => {
         const res = await categoryServices.getCategories(params);
         const { data } = res;
         return data;
-    }
+    };
 
     // use useQuery to fetch data and make is easier to manage state
     // useQuery = (queryKey, queryFn, options)
@@ -38,12 +41,59 @@ const useCategory = () => {
         data: dataCategory,
         isLoading: isLoadingCategory, 
         isRefetching: isRefetchingCategory, 
-        refetch: refetchCategory 
+        refetch: refetchCategory ,
     } = useQuery({
         queryKey: ['Category', currentPage, currentLimit, currentSearch],
         queryFn: getCategories,
         enabled: router.isReady && !!currentPage && !!currentLimit, // use !! = must be true
     });
+
+    // for handle change page pagination
+    const handleChangePage = (page: number) => {
+        router.push({
+            query: {
+                ...router.query,
+                page,
+            }
+        });
+    };
+
+    // for handle change limit and reset page to 1 if limit change
+    const handleChangeLimit = (e: ChangeEvent<HTMLSelectElement>) => {
+        const selectedLimit = e.target.value;
+        router.push({
+            query: {
+                ...router.query,
+                limit: selectedLimit,
+                page: PAGE_DEFAULT,
+            }
+        })
+    };
+
+    // debounce search input
+    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+        debounce(() => {
+            const search = e.target.value;
+            router.push({
+                query: {
+                    ...router.query,
+                    search,
+                    page: PAGE_DEFAULT,
+                }
+            });
+        }, DELAY);
+    };
+
+    // for clear search input
+    const handleClearSearch = () => {
+        router.push({
+            query: {
+                ...router.query,
+                search: '',
+                page: PAGE_DEFAULT,
+            }
+        });
+    };
 
     return {
         dataCategory,
@@ -55,6 +105,10 @@ const useCategory = () => {
         currentPage,
         currentLimit,
         currentSearch,
+        handleChangeLimit,
+        handleChangePage,
+        handleSearch,
+        handleClearSearch,
     }
 };
 
