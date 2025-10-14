@@ -14,6 +14,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 import { LIMIT_LISTS } from "@/constants/list.constants";
 import useCategory from "./useCategory";
+import InputFile from "@/components/ui/InputFile";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
@@ -84,6 +85,8 @@ const Category = () => {
         totalPages={dataCategory ? dataCategory.pagination.totalPages : 1}
       />
       )}
+
+      <InputFile />
     </section>
   );
 };

@@ -51,7 +51,7 @@ const useCategory = () => {
     // for handle change page pagination
     const handleChangePage = (page: number) => {
         router.push({
-            query: {
+            query: { // use query for change url without reload page
                 ...router.query,
                 page,
             }
@@ -61,8 +61,8 @@ const useCategory = () => {
     // for handle change limit and reset page to 1 if limit change
     const handleChangeLimit = (e: ChangeEvent<HTMLSelectElement>) => {
         const selectedLimit = e.target.value;
-        router.push({
-            query: {
+        router.push({ 
+            query: { // use query for change url without reload page
                 ...router.query,
                 limit: selectedLimit,
                 page: PAGE_DEFAULT,
@@ -75,7 +75,7 @@ const useCategory = () => {
         debounce(() => {
             const search = e.target.value;
             router.push({
-                query: {
+                query: { // use query for change url without reload page 
                     ...router.query,
                     search,
                     page: PAGE_DEFAULT,
@@ -87,7 +87,7 @@ const useCategory = () => {
     // for clear search input
     const handleClearSearch = () => {
         router.push({
-            query: {
+            query: { // use query for change url without reload page
                 ...router.query,
                 search: '',
                 page: PAGE_DEFAULT,
