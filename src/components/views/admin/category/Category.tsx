@@ -86,7 +86,7 @@ const Category = () => {
       />
       )}
 
-      <InputFile />
+      <InputFile name="input" isDropable/>
     </section>
   );
 };
