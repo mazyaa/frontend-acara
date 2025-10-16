@@ -12,11 +12,12 @@ interface PropTypes {
 const InputFile = (props: PropTypes) => {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const { className, isDropable, name } = props;
-  const drop = useRef<HTMLLabelElement>(null);
+  const drop = useRef<HTMLLabelElement>(null); // for accesing the label element (drop zone area)
   const dropZoneId = useId();
 
+  // for handling preventing default behavior of dragover and drop events 
   const handleDragOver = (e: DragEvent) => {
-    if (isDropable) {
+    if (isDropable) { // only allow drag over if isDropable is true
       e.preventDefault();
       e.stopPropagation();
     }
@@ -24,15 +25,17 @@ const InputFile = (props: PropTypes) => {
 
   const handleDrop = (e: DragEvent) => {
     e.preventDefault();
-    setUploadedImage(e.dataTransfer?.files[0] || null);
+    setUploadedImage(e.dataTransfer?.files[0] || null); // get the first file from the dropped files and set it to state
   };
 
+  // add event listeners for dragover and drop events to the label element
   useEffect(() => {
-    const dropCurrent = drop.current;
+    const dropCurrent = drop.current; // get the current label element
     if (dropCurrent) {
       dropCurrent.addEventListener("dragover", handleDragOver);
       dropCurrent.addEventListener("drop", handleDrop);
 
+      // remove event listeners if the component unmounts/isDropable changes
       return () => {
         dropCurrent.removeEventListener("dragover", handleDragOver);
         dropCurrent.removeEventListener("drop", handleDrop);
@@ -40,6 +43,7 @@ const InputFile = (props: PropTypes) => {
     }
   }, []);
 
+  // handle file input change event (for handling file selection via click)
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.currentTarget.files;
     if (files && files.length > 0) {
@@ -49,14 +53,14 @@ const InputFile = (props: PropTypes) => {
 
   return (
     <label
-      ref={drop}
+      ref={drop} // reference to the label element for drag and drop events
       htmlFor={`dropzone-file-${dropZoneId}`}
       className={cn(
         "flex min-h-24 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-100 hover:bg-gray-200",
         className,
       )}
     >
-      {uploadedImage ? (
+      {uploadedImage ? ( // if there is an uploaded image, show the preview
         <div className="flex flex-col items-center justify-center p-5">
           <div className="mb-2 w-1/2">
             <Image
@@ -70,7 +74,7 @@ const InputFile = (props: PropTypes) => {
             </p>
           </div>
         </div>
-      ) : (
+      ) : ( // if no image is uploaded, show the drop zone message
         <div className="flex flex-col items-center justify-center p-5">
             <CiSaveUp2 className="mb-2 h-10 w-10 text-gray-400" />
             <p className="text-center text-sm font-semibold text-gray-500">
