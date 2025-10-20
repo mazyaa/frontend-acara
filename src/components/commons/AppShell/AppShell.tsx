@@ -1,4 +1,4 @@
-import Toast from "@/components/ui/Toast";
+import Toast from "@/components/ui/Toaster";
 import cn from "@/utils/cn";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
