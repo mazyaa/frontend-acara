@@ -1,7 +1,8 @@
-import Toast from "@/components/ui/Toaster";
+import Toaster from "@/components/ui/Toaster";
+import { defaultToaster, ToasterContext } from "@/context/ToasterContext";
 import cn from "@/utils/cn";
 import { Inter } from "next/font/google";
-import { ReactNode } from "react";
+import { ReactNode, useContext, useEffect } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,10 +15,22 @@ interface PropTypes {
 
 const AppShell = (props: PropTypes) => {
     const { children } = props;
+    const { toaster, setToaster } = useContext(ToasterContext); // get toaster state from context
+
+    useEffect(() =>{
+      const timeout = setTimeout(() => {
+        setToaster(defaultToaster);
+      }, 3000);
+      
+      return () => clearTimeout(timeout);
+    }, [toaster])
+
     return (
          <main className={cn(inter.className)}>
             {children}
-            <Toast />
+            {toaster.type !== "" && (
+              <Toaster type={toaster.type} message={toaster.message}/>
+            )}
           </main>
     )
 }

@@ -6,7 +6,13 @@ const iconLIst: { [key: string]: ReactNode} = {
     error: <CiCircleRemove className="text-3xl text-danger-55" />,
 }
 
-const Toaster = () => {
+interface PropTypes {
+    type: string;
+    message: string;
+}
+
+const Toaster = (props: PropTypes) => {
+  const { type, message } = props;
   return (
     <div
       role="alert"
@@ -14,9 +20,9 @@ const Toaster = () => {
       className="rouded-xl fixed rounded-lg right-8 top-8 max-w-xs border border-gray-200 bg-white shadow-md"
     >
         <div className="flex items-center gap-2 p-4">
-            {iconLIst['success']}
+            {iconLIst[type]}
             <p id="toaster-label" className="text-sm text-gray-700">
-                Test Toaster Message
+                {message}
             </p>
         </div>
     </div>

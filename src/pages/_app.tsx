@@ -4,7 +4,7 @@ import { HeroUIProvider } from "@heroui/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import AppShell from "@/components/commons/AppShell";
-
+import { ToasterProvider } from "@/context/ToasterContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,12 +20,14 @@ export default function App({
   pageProps: { session, ...pageProps }, // props of the page
 }: AppProps) {
   return (
-    <SessionProvider session={session}> // provide session to the app
-      <QueryClientProvider client={queryClient}> // provide react-query client to the app
+    <SessionProvider session={session}> 
+      <QueryClientProvider client={queryClient}>
         <HeroUIProvider>
-         <AppShell>
-            <Component {...pageProps} />
-         </AppShell>
+          <ToasterProvider>
+            <AppShell>
+              <Component {...pageProps} />
+            </AppShell>
+          </ToasterProvider>
         </HeroUIProvider>
       </QueryClientProvider>
     </SessionProvider>
