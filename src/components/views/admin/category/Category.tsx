@@ -15,6 +15,7 @@ import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 import { LIMIT_LISTS } from "@/constants/list.constants";
 import useCategory from "./useCategory";
 import InputFile from "@/components/ui/InputFile";
+import AddCategoryModal from "./AddCategoryModal";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
@@ -85,7 +86,7 @@ const Category = () => {
         totalPages={dataCategory ? dataCategory.pagination.totalPages : 1}
       />
       )}
-
+      <AddCategoryModal isOpen={true} />
       <InputFile name="input" isDropable/>
     </section>
   );

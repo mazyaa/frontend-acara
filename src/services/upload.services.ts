@@ -1,5 +1,6 @@
 import instance from '@/libs/axios/instance';
 import endpoint from '@/services/endpoint.constant';
+import { IFileUrl } from '@/types/File';
 
 const formDataHeader = {
     headers: {
@@ -9,5 +10,9 @@ const formDataHeader = {
 
 const uploadServices = {
     uploadFile: (payload: FormData) => 
-        instance.post(`${endpoint.MEDIA}/upload-single`, payload, formDataHeader)
+        instance.post(`${endpoint.MEDIA}/upload-single`, payload, formDataHeader),
+    deleteFile: (payload: IFileUrl) =>
+         instance.delete(`${endpoint.MEDIA}/delete`, { data: payload })
 }
+
+export default uploadServices;
