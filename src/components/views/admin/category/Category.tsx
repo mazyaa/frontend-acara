@@ -12,9 +12,7 @@ import { useRouter } from "next/router";
 import { Key, ReactNode, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
-import { LIMIT_LISTS } from "@/constants/list.constants";
 import useCategory from "./useCategory";
-import InputFile from "@/components/ui/InputFile";
 import AddCategoryModal from "./AddCategoryModal";
 
 const Category = () => {
@@ -87,7 +85,6 @@ const Category = () => {
       />
       )}
       <AddCategoryModal isOpen={true} />
-      <InputFile name="input" isDropable/>
     </section>
   );
 };
