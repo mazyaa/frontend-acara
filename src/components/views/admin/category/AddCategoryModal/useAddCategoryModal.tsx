@@ -14,7 +14,7 @@ const schema = yup.object().shape({
   icon: yup.mixed<FileList>().required("Please upload an icon"),
 });
 
-const useAddCategoryModel = () => {
+const useAddCategoryModal = () => {
   const { setToaster } = useContext(ToasterContext);
   // create control form
   const {
@@ -51,7 +51,7 @@ const useAddCategoryModel = () => {
   //setup mutation for adding category
   const {
     mutate: mutateAddCategory,
-    isPending: isPendingMutateCategory,
+    isPending: isPendingMutateAddCategory,
     isSuccess: isSuccessMutateAddCategory,
   } = useMutation({
     mutationFn: addCategory,
@@ -69,4 +69,34 @@ const useAddCategoryModel = () => {
       reset(); // use reset for reset form after success
     },
   });
+
+  //setup mutetae add file
+  const { mutate: muatateAddFile, isPending: isPendingMutateAddFile } = useMutation({
+    mutationFn: uploadIcon,
+    onError: (error) => {
+      setToaster({
+        type: "error",
+        message: (error as Error).message,
+      });
+    },
+    onSuccess: (payload) => {
+      mutateAddCategory(payload);
+    }
+  });
+
+  const handleAddCategory = (data: ICategoryForm) => muatateAddFile(data);
+
+  return {
+    control,
+    errors,
+    reset,
+    handleSubmitForm,
+    handleAddCategory,
+    isPendingMutateAddCategory,
+    isSuccessMutateAddCategory,
+    isPendingMutateAddFile,
+  }
 };
+
+export default useAddCategoryModal;
+
