@@ -7,11 +7,14 @@ interface PropTypes {
   className?: string;
   isDropable?: boolean;
   name: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  isInvalid?: boolean;
+  errorMessage?: string;
 }
 
 const InputFile = (props: PropTypes) => {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
-  const { className, isDropable, name } = props;
+  const { className, isDropable, name, onChange, isInvalid, errorMessage  } = props;
   const drop = useRef<HTMLLabelElement>(null); // for accesing the label element (drop zone area)
   const dropZoneId = useId();
 
@@ -48,16 +51,22 @@ const InputFile = (props: PropTypes) => {
     const files = e.currentTarget.files;
     if (files && files.length > 0) {
       setUploadedImage(files[0]);
+      // call the onChange prop function if it exists
+      if (onChange) {
+        onChange(e);
+      }
     }
   };
 
   return (
-    <label
+    <div>
+      <label
       ref={drop} // reference to the label element for drag and drop events
       htmlFor={`dropzone-file-${dropZoneId}`}
       className={cn(
         "flex min-h-24 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-100 hover:bg-gray-200",
         className,
+        isInvalid && "border-danger-500"
       )}
     >
       {uploadedImage ? ( // if there is an uploaded image, show the preview
@@ -93,6 +102,10 @@ const InputFile = (props: PropTypes) => {
         id={`dropzone-file-${dropZoneId}`}
       />
     </label>
+    {isInvalid && (
+      <p className="mt-1 text-sm text-danger-500">{errorMessage}</p>
+    )}
+    </div>
   );
 };
 
