@@ -18,9 +18,9 @@ const useAddCategoryModal = () => {
   const { setToaster } = useContext(ToasterContext);
   // create control form
   const {
-    control,
-    handleSubmit: handleSubmitForm,
-    formState: { errors },
+    control, // use for controlling handling value form
+    handleSubmit: handleSubmitForm, // use for handling submit form (validate first then call function)
+    formState: { errors }, // use for getting error message from validation
     reset,
   } = useForm({
     resolver: yupResolver(schema),
@@ -29,10 +29,14 @@ const useAddCategoryModal = () => {
   //for handling upload icon
   const uploadIcon = async (data: ICategoryForm) => {
     const formData = new FormData();
-    formData.append("file", data.icon[0]);
+    formData.append("file", data.icon[0]);  
 
     const {
-      data: { secure_url: icon },
+      data: { 
+        data: {
+          secure_url: icon
+        }
+       },
     } = await uploadServices.uploadFile(formData);
 
     return {
@@ -71,7 +75,7 @@ const useAddCategoryModal = () => {
   });
 
   //setup mutetae add file
-  const { mutate: muatateAddFile, isPending: isPendingMutateAddFile } = useMutation({
+  const { mutate: mutateAddFile, isPending: isPendingMutateAddFile } = useMutation({
     mutationFn: uploadIcon,
     onError: (error) => {
       setToaster({
@@ -84,7 +88,7 @@ const useAddCategoryModal = () => {
     }
   });
 
-  const handleAddCategory = (data: ICategoryForm) => muatateAddFile(data);
+  const handleAddCategory = (data: ICategoryForm) => mutateAddFile(data);
 
   return {
     control,

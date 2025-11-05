@@ -12,14 +12,17 @@ import {
 } from "@heroui/react";
 import useAddCategoryModal from "./useAddCategoryModal";
 import { Controller } from "react-hook-form";
+import { useEffect } from "react";
 
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
+  onOpenChange: () => void;
+  refetchCategory: () => void;
 }
 
 const AddCategoryModal = (props: PropTypes) => {
-  const { isOpen, onClose } = props;
+  const { isOpen, onClose, onOpenChange, refetchCategory } = props;
   const {
     control,
     errors,
@@ -30,8 +33,16 @@ const AddCategoryModal = (props: PropTypes) => {
     isSuccessMutateAddCategory,
     isPendingMutateAddFile,
   } = useAddCategoryModal();
+
+  useEffect(() => {
+    if (isSuccessMutateAddCategory) {
+      onClose();
+      refetchCategory();
+    }
+  }, [isSuccessMutateAddCategory])
+  
   return (
-    <Modal isOpen={isOpen} placement="center" scrollBehavior="inside">
+    <Modal onOpenChange={onOpenChange} isOpen={isOpen} placement="center" scrollBehavior="inside">
       <form onSubmit={handleSubmitForm(handleAddCategory)}>
         <ModalContent className="m-4">
           <ModalHeader>
@@ -43,7 +54,7 @@ const AddCategoryModal = (props: PropTypes) => {
                 <p className="text-sm font-bold">Infromation</p>
                 <Controller 
                   name="name"
-                  control={control}
+                  control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
                   render={({ field }) => (
                     <Input
                       {...field}
@@ -83,7 +94,7 @@ const AddCategoryModal = (props: PropTypes) => {
                     <InputFile 
                       {...field}
                       onChange={(e) => {
-                        onChange(e.currentTarget.files ? e.currentTarget.files[0] : null);
+                        onChange(e.currentTarget.files);
                       }}
                       isInvalid={errors.icon !== undefined}
                       errorMessage={errors.icon?.message}

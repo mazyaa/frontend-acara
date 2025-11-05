@@ -6,6 +6,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  useDisclosure,
 } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -17,12 +18,14 @@ import AddCategoryModal from "./AddCategoryModal";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
-  const { currentPage, currentLimit, currentSearch, setURL, dataCategory, handleChangeLimit, handleChangePage, handleClearSearch, handleSearch, isLoadingCategory, isRefetchingCategory } = useCategory();
+  const { currentPage, currentLimit, currentSearch, setURL, dataCategory, handleChangeLimit, handleChangePage, handleClearSearch, handleSearch, isLoadingCategory, isRefetchingCategory, refetchCategory } = useCategory();
   console.log(dataCategory);
 
   useEffect(() => {
     setURL();
   }, []);
+
+  const addCategoryModal = useDisclosure(); // use for controlling modal open close
 
   const renderCell = useCallback(
     // use useCallback to memoize the function, so it only re-created when dependencies change
@@ -79,12 +82,12 @@ const Category = () => {
         onChangePage={handleChangePage}
         onChangeSearch={handleSearch}
         onClearSearch={handleClearSearch}
-        onClickButtonTopContent={() => {}}
+        onClickButtonTopContent={() => {addCategoryModal.onOpen()}} // open modal when button clicked use method from useDisclosure (onOpen)
         renderCell={renderCell}
         totalPages={dataCategory ? dataCategory.pagination.totalPages : 1}
       />
       )}
-      <AddCategoryModal isOpen={true} />
+      <AddCategoryModal refetchCategory={refetchCategory} {...addCategoryModal} />
     </section>
   );
 };
