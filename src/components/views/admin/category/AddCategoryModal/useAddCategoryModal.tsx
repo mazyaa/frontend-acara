@@ -21,9 +21,9 @@ const useAddCategoryModal = () => {
     control, // use for controlling handling value form
     handleSubmit: handleSubmitForm, // use for handling submit form (validate first then call function)
     formState: { errors }, // use for getting error message from validation
-    reset,
+    reset, // use for reset form
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema), // resolver validation by yup schema
   });
 
   //for handling upload icon
