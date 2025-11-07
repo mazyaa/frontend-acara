@@ -71,7 +71,7 @@ const AddCategoryModal = (props: PropTypes) => {
                 
                 <Controller 
                   name="description"
-                  control={control}
+                  control={control} // for connect input with react hook form, meaning input value will be managed by react hook form
                   render={({ field }) => (
                     <Textarea
                       {...field}
