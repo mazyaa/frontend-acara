@@ -69,12 +69,12 @@ const AddCategoryModal = (props: PropTypes) => {
                   )}
                 />
                 
-                <Controller 
-                  name="description"
-                  control={control} // for connect input with react hook form, meaning input value will be managed by react hook form
+                <Controller // use Controller for connect custom input component with react hook form and inject some propertie like onChange, value, name, ref to input component
+                  name="description" // shout use name propeerty because it will be used as key in form data
+                  control={control} // an property from Controller for connect input with react hook form, meaning input value will be managed by react hook form
                   render={({ field }) => (
                     <Textarea
-                      {...field}
+                      {...field} // for inject some propperties like onChange, value, name, ref from react hook form to Input component, so Input component can be controlled by react hook form because by default some properties like onChange and value are not connected to react hook form
                       className="rounded"
                       variant="bordered"
                       label="Description"

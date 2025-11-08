@@ -66,7 +66,7 @@ const InputFile = (props: PropTypes) => {
       className={cn(
         "flex min-h-24 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-100 hover:bg-gray-200",
         className,
-        isInvalid && "border-danger-500"
+        isInvalid && "border-danger-500" // add danger border if isInvalid uploadedImage is true
       )}
     >
       {uploadedImage ? ( // if there is an uploaded image, show the preview
