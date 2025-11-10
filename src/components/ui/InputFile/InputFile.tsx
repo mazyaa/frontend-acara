@@ -1,6 +1,6 @@
 import cn from "@/utils/cn";
-import { Button, Spinner } from "@heroui/react";
 import Image from "next/image";
+import { Button, Spinner } from "@heroui/react";
 import { ChangeEvent, useEffect, useId, useRef, useState } from "react";
 import { CiSaveUp2, CiTrash } from "react-icons/ci";
 
@@ -12,14 +12,12 @@ interface PropTypes {
   isInvalid?: boolean;
   isUploading?: boolean;
   name: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onUpload: (files: FileList) => void;
   onDelete: () => void;
   preview?: string;
 }
 
 const InputFile = (props: PropTypes) => {
-  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const {
     className,
     errorMessage,
@@ -27,14 +25,14 @@ const InputFile = (props: PropTypes) => {
     isDeleting,
     isUploading,
     name,
-    onChange,
     onUpload,
     onDelete,
     isInvalid,
     preview,
   } = props;
-  const drop = useRef<HTMLLabelElement>(null); // for accesing the label element (drop zone area)
-  const dropZoneId = useId(); // for creating unique id for the drop zone area
+  const inputRef = useRef<HTMLInputElement | null >(null); // for accesing the input element like getElementById in vanilla js
+  const drop = useRef<HTMLLabelElement>(null); // for accesing the label element (drop zone area) like getElementById in vanilla js
+  const dropZoneId = useId(); // for creating unique id for the drop zone area 
 
   // for handling preventing default behavior of dragover and drop events
   const handleDragOver = (e: DragEvent) => {
@@ -128,6 +126,7 @@ const InputFile = (props: PropTypes) => {
           )}
 
         <input
+          ref={inputRef} // set reference to the input element (use ref like getElementById in vanilla js) so inputRef.current === the input element
           name={name}
           type="file"
           className="hidden"
@@ -136,8 +135,7 @@ const InputFile = (props: PropTypes) => {
           onChange={handleOnUpload}
           disabled={preview !== ""}
           onClick={(e) => {
-            e.currentTarget.value = ""; // reset the input value to allow re-uploading the same file
-            e.target.dispatchEvent(new Event("change", { bubbles: true })); // use dispatchEvent to trigger the change event and use bubbles to allow the event to bubble up the DOM tree
+            if (inputRef.current) inputRef.current.value = ""; // reset the input value to allow uploading the "same file" again
           }}
         />
       </label>
