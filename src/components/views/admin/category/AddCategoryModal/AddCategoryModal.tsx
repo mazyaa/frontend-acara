@@ -98,6 +98,7 @@ const AddCategoryModal = (props: PropTypes) => {
                       }}
                       isInvalid={errors.icon !== undefined}
                       errorMessage={errors.icon?.message}
+                      isDropable
                     />
                   )}
                 />
