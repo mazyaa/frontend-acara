@@ -3,7 +3,7 @@ import uploadServices from "@/services/upload.services";
 import { useContext } from "react"
 
 const useMediaHandling = () => {
-    const { setToaster } = useContext(ToasterContext);
+    const { setToaster } = useContext(ToasterContext); // destructuring the setToaster function from ToasterContext
     const uploadFile = async (file: File, callback: (fileUrl: string) => void ) => {
         const formData = new FormData();
         formData.append("file", file);
