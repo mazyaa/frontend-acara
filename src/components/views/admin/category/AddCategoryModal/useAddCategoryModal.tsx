@@ -76,7 +76,7 @@ const useAddCategoryModal = () => {
 
   //setup mutetae add file
   const { mutate: mutateAddFile, isPending: isPendingMutateAddFile } = useMutation({
-    mutationFn: uploadIcon,
+    mutationFn: uploadIcon, // can straight away call uploadIcon because uploadIcon only have 1 parameter
     onError: (error) => {
       setToaster({
         type: "error",
