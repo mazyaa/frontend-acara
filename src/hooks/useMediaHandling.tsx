@@ -35,22 +35,22 @@ const useMediaHandling = () => {
         }
       });
 
-      const deleteFile = async (fileUrl: IFileUrl, callback: () => void) => {
-        const response = await uploadServices.deleteFile(fileUrl);
+      const deleteFile = async (fileUrl: string, callback: () => void) => {
+        const response = await uploadServices.deleteFile({fileUrl});
         if (response.data.meta.status === 200) {
             callback();
         }
       };
 
-      // setuo mutate delete file
+      // setup mutate delete file
       const {
         mutate: mutateDeleteFile,
         isPending: isPendingMutateDeleteFile,
       } = useMutation({
         mutationFn: (variables: { // must be destructured like thise because function uploadFile have 2 parameters
-            file: IFileUrl,
+            fileUrl: string,
             callback: () => void
-        }) => deleteFile(variables.file, variables.callback),
+        }) => deleteFile(variables.fileUrl, variables.callback),
         onError: (error) => {
           setToaster({
             type: "error",

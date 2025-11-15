@@ -107,7 +107,7 @@ const InputFile = (props: PropTypes) => {
           </div>
         )}
 
-        {preview &&
+        {!preview &&
           !isUploading && ( // render this component if preview image is not available and isUploading is false
             <div className="flex flex-col items-center justify-center p-5">
               <CiSaveUp2 className="mb-2 h-10 w-10 text-gray-400" />

@@ -1,7 +1,7 @@
 import { ToasterContext } from "@/context/ToasterContext";
+import useMediaHandling from "@/hooks/useMediaHandling";
 import categoryServices from "@/services/category.service";
-import uploadServices from "@/services/upload.services";
-import { ICategory, ICategoryForm } from "@/types/Category";
+import { ICategory } from "@/types/Category";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
@@ -11,40 +11,80 @@ import * as yup from "yup";
 const schema = yup.object().shape({
   name: yup.string().required("Please input name"),
   description: yup.string().required("Please input description"),
-  icon: yup.mixed<FileList>().required("Please upload an icon"),
+  icon: yup.mixed<FileList | string>().required("Please upload an icon"),
 });
 
 const useAddCategoryModal = () => {
   const { setToaster } = useContext(ToasterContext);
+  const {
+      mutateUploadFile,
+      isPendingMutateUploadFile,
+      mutateDeleteFile,
+      isPendingMutateDeleteFile,
+  } = useMediaHandling();
+
+  
   // create control form
   const {
     control, // use for controlling handling value form
     handleSubmit: handleSubmitForm, // use for handling submit form (validate first then call function)
     formState: { errors }, // use for getting error message from validation
     reset, // use for reset form
+    watch, // use for watching value form (like onChange)
+    getValues,
+    setValue,
   } = useForm({
     resolver: yupResolver(schema), // resolver validation by yup schema
   });
+  
+  const preview = watch("icon");
 
-  //for handling upload icon
-  const uploadIcon = async (data: ICategoryForm) => {
-    const formData = new FormData();
-    formData.append("file", data.icon[0]);  
-
-    const {
-      data: { 
-        data: {
-          secure_url: icon
+  //create handle upload icon
+  const handleUploadIcon = (files: FileList, onChange: (files: FileList | undefined) => void) => {
+    if (files.length !== 0) {
+      onChange(files); // set value to form as a FileList
+      mutateUploadFile({
+        file: files[0], // upload first file only
+        callback: (fileUrl: string) => { // after upload success set vaalue form type as a string (url)
+          setValue("icon", fileUrl); // set uploaded file url to form value
         }
-       },
-    } = await uploadServices.uploadFile(formData);
+      })
+    }
+  }
 
-    return {
-      name: data.name,
-      description: data.description,
-      icon,
-    };
-  };
+  // create handle delete icon
+  const handleDeleteIcon = (
+    onChange: (files: FileList | undefined) => void
+   ) => {
+    const fileUrl = getValues("icon");
+    if (typeof fileUrl === "string") {
+      mutateDeleteFile({
+        fileUrl,
+        callback: () => onChange(undefined)
+      });
+    }
+  }
+
+  //create onClose modal
+  const handelOnCLose = (
+    onCLose: () => void
+  ) => {
+    const fileUrl = getValues("icon");
+    if (typeof fileUrl === "string") {
+      mutateDeleteFile({
+        fileUrl,
+        callback: () => {
+          reset(); // reset form after delete success
+          onCLose(); // close modal
+        }
+      })
+    } else {
+      reset(); // reset form after delete success
+      onCLose(); // close modal
+    }
+  }
+
+
 
   // for adding new category
   const addCategory = async (payload: ICategory) => {
@@ -74,21 +114,9 @@ const useAddCategoryModal = () => {
     },
   });
 
-  //setup mutetae add file
-  const { mutate: mutateAddFile, isPending: isPendingMutateAddFile } = useMutation({
-    mutationFn: uploadIcon, // can straight away call uploadIcon because uploadIcon only have 1 parameter
-    onError: (error) => {
-      setToaster({
-        type: "error",
-        message: (error as Error).message,
-      });
-    },
-    onSuccess: (payload) => {
-      mutateAddCategory(payload);
-    }
-  });
 
-  const handleAddCategory = (data: ICategoryForm) => mutateAddFile(data);
+
+  const handleAddCategory = (data: ICategory) => mutateAddCategory(data);
 
   return {
     control,
@@ -98,7 +126,13 @@ const useAddCategoryModal = () => {
     handleAddCategory,
     isPendingMutateAddCategory,
     isSuccessMutateAddCategory,
-    isPendingMutateAddFile,
+
+    preview,
+    handleUploadIcon,
+    isPendingMutateUploadFile,
+    handleDeleteIcon,
+    isPendingMutateDeleteFile,
+    handelOnCLose
   }
 };
 

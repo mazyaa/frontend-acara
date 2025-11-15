@@ -12,7 +12,7 @@ const uploadServices = {
     uploadFile: (payload: FormData) => 
         instance.post(`${endpoint.MEDIA}/upload-single`, payload, formDataHeader),
     deleteFile: (payload: IFileUrl) =>
-         instance.delete(`${endpoint.MEDIA}/delete`, { data: payload })
+         instance.delete(`${endpoint.MEDIA}/remove`, { data: payload })
 }
 
 export default uploadServices;
