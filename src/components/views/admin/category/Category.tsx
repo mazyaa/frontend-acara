@@ -15,6 +15,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 import useCategory from "./useCategory";
 import AddCategoryModal from "./AddCategoryModal";
+import DeleteCategoryModal from "./DeleteCategoryModal";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
@@ -88,6 +89,7 @@ const Category = () => {
       />
       )}
       <AddCategoryModal refetchCategory={refetchCategory} {...addCategoryModal} />
+      <DeleteCategoryModal isOpen={true}/>
     </section>
   );
 };
