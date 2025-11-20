@@ -10,7 +10,7 @@ import {
 } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Key, ReactNode, useCallback, useEffect } from "react";
+import { Key, ReactNode, useCallback, useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 import useCategory from "./useCategory";
@@ -19,6 +19,7 @@ import DeleteCategoryModal from "./DeleteCategoryModal";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
+  const [ seletctedId, setSelectedId ] = useState();
   const { currentPage, currentLimit, currentSearch, setURL, dataCategory, handleChangeLimit, handleChangePage, handleClearSearch, handleSearch, isLoadingCategory, isRefetchingCategory, refetchCategory } = useCategory();
   console.log(dataCategory);
 
@@ -88,8 +89,8 @@ const Category = () => {
         totalPages={dataCategory ? dataCategory.pagination.totalPages : 1}
       />
       )}
-      <AddCategoryModal refetchCategory={refetchCategory} {...addCategoryModal} />
-      <DeleteCategoryModal isOpen={true}/>
+      <AddCategoryModal {...addCategoryModal} refetchCategory={refetchCategory} />
+      <DeleteCategoryModal {...DeleteCategoryModal} refetchCategory={refetchCategory}/>
     </section>
   );
 };

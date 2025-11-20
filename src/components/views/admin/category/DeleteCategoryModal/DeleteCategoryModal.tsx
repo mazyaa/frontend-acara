@@ -41,7 +41,7 @@ const DeleteCategoryModal = (props: PropTypes) => {
                   className="font-normal text-white"
                   color="danger"
                   type="submit"
-                //   disabled={disabledSubmit}
+                  // disabled={disabledSubmit}
                 >
                   {/* {isPendingMutateAddCategory ? (
                     <Spinner size="sm" color="white" />
