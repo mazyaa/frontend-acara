@@ -1,14 +1,17 @@
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
+import { Dispatch, SetStateAction } from "react";
 
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
   onOpenChange: () => void;
   refetchCategory: () => void;
+  selectedId: string;
+  setSelectedId: Dispatch<SetStateAction<string>>; // dispatch works for setState function (React useState)
 }
 
 const DeleteCategoryModal = (props: PropTypes) => {
-  const { isOpen, onClose, onOpenChange, refetchCategory } = props;
+  const { isOpen, onClose, onOpenChange, refetchCategory, selectedId, setSelectedId } = props;
 
   return (
     <Modal
