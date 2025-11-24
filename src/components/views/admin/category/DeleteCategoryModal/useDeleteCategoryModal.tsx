@@ -3,7 +3,7 @@ import categoryServices from "@/services/category.service";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
 
-const useDeleteCategoryModal = () => {
+export const useDeleteCategoryModal = () => {
   const { setToaster } = useContext(ToasterContext);
 
   const deleteCategory = async (id: string) => {
@@ -13,7 +13,7 @@ const useDeleteCategoryModal = () => {
 
   const {
     mutate: mutateDeleteCategory, // set alias for mutate function
-    isPending: isPendingDeleteCategory, // set alias for isPending
+    isPending: isPendingMutateDeleteCategory, // set alias for isPending
     isSuccess: isSuccessDeleteCategory, // set alias for isSuccess 
   } = useMutation({
     mutationFn: deleteCategory,
@@ -33,7 +33,7 @@ const useDeleteCategoryModal = () => {
 
   return {
     mutateDeleteCategory,
-    isPendingDeleteCategory,
+    isPendingMutateDeleteCategory,
     isSuccessDeleteCategory,
   };
 };

@@ -19,7 +19,22 @@ import DeleteCategoryModal from "./DeleteCategoryModal";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
-  const { currentPage, currentLimit, currentSearch, setURL, dataCategory, handleChangeLimit, handleChangePage, handleClearSearch, handleSearch, isLoadingCategory, isRefetchingCategory, refetchCategory, selectedId, setSelectedId } = useCategory();
+  const {
+    currentPage,
+    currentLimit,
+    currentSearch,
+    setURL,
+    dataCategory,
+    handleChangeLimit,
+    handleChangePage,
+    handleClearSearch,
+    handleSearch,
+    isLoadingCategory,
+    isRefetchingCategory,
+    refetchCategory,
+    selectedId,
+    setSelectedId,
+  } = useCategory();
   console.log(dataCategory);
 
   useEffect(() => {
@@ -27,6 +42,7 @@ const Category = () => {
   }, []);
 
   const addCategoryModal = useDisclosure(); // use for controlling modal open close
+  const deleteCategoryModal = useDisclosure();
 
   const renderCell = useCallback(
     // use useCallback to memoize the function, so it only re-created when dependencies change
@@ -55,7 +71,14 @@ const Category = () => {
                 >
                   Detail Catgeory
                 </DropdownItem>
-                <DropdownItem key="delete-category" className="text-danger-600">
+                <DropdownItem
+                  key="delete-category"
+                  className="text-danger-600"
+                  onPress={() => {
+                    setSelectedId(`${category._id}`);
+                    deleteCategoryModal.onOpen();
+                  }}
+                >
                   Delete
                 </DropdownItem>
               </DropdownMenu>
@@ -71,7 +94,7 @@ const Category = () => {
   return (
     <section>
       {Object.keys(query).length > 0 && (
-        <DataTable
+      <DataTable
         buttonTopContenLabel="Create Category"
         columns={COLUMN_LIST_CATEGORY}
         currentPage={Number(currentPage) || 1}
@@ -83,15 +106,20 @@ const Category = () => {
         onChangePage={handleChangePage}
         onChangeSearch={handleSearch}
         onClearSearch={handleClearSearch}
-        onClickButtonTopContent={() => {addCategoryModal.onOpen()}} // open modal when button clicked use method from useDisclosure (onOpen)
+        onClickButtonTopContent={() => {
+        addCategoryModal.onOpen();
+        }} // open modal when button clicked use method from useDisclosure (onOpen)
         renderCell={renderCell}
         totalPages={dataCategory ? dataCategory.pagination.totalPages : 1}
       />
       )}
-      <AddCategoryModal {...addCategoryModal} refetchCategory={refetchCategory} />
-      <DeleteCategoryModal 
-      {...DeleteCategoryModal} 
-      selectedId={selectedId} 
+      <AddCategoryModal
+      {...addCategoryModal}
+      refetchCategory={refetchCategory}
+      />
+      <DeleteCategoryModal
+      {...deleteCategoryModal}
+      selectedId={selectedId}
       setSelectedId={setSelectedId}
       refetchCategory={refetchCategory}
       />

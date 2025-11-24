@@ -1,5 +1,14 @@
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
-import { Dispatch, SetStateAction } from "react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Spinner,
+} from "@heroui/react";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { useDeleteCategoryModal } from "./useDeleteCategoryModal";
 
 interface PropTypes {
   isOpen: boolean;
@@ -10,8 +19,27 @@ interface PropTypes {
   setSelectedId: Dispatch<SetStateAction<string>>; // dispatch works for setState function (React useState)
 }
 
-const DeleteCategoryModal = (props: PropTypes) => {
-  const { isOpen, onClose, onOpenChange, refetchCategory, selectedId, setSelectedId } = props;
+export const DeleteCategoryModal = (props: PropTypes) => {
+  const {
+    isOpen,
+    onClose,
+    onOpenChange,
+    refetchCategory,
+    selectedId,
+    setSelectedId,
+  } = props;
+  const {
+    mutateDeleteCategory,
+    isPendingMutateDeleteCategory,
+    isSuccessDeleteCategory,
+  } = useDeleteCategoryModal();
+
+  useEffect(() => {
+    if (isSuccessDeleteCategory) {
+      refetchCategory();
+      onClose();
+    }
+  }, [isSuccessDeleteCategory]); // run useEffect when isSuccessDeleteCategory changes
 
   return (
     <Modal
@@ -35,8 +63,11 @@ const DeleteCategoryModal = (props: PropTypes) => {
                 <Button
                   className="font-medium text-danger-500"
                   variant="flat"
-                //   onPress={() => handelOnCLose(onClose)}
-                //   disabled={disabledSubmit}
+                    onPress={() => {
+                      onClose();
+                      setSelectedId("");
+                    }}
+                    disabled={isPendingMutateDeleteCategory}
                 >
                   Cancel
                 </Button>
@@ -44,14 +75,14 @@ const DeleteCategoryModal = (props: PropTypes) => {
                   className="font-normal text-white"
                   color="danger"
                   type="submit"
-                  // disabled={disabledSubmit}
+                  onPress={() => mutateDeleteCategory(selectedId)}
+                  disabled={isPendingMutateDeleteCategory}
                 >
-                  {/* {isPendingMutateAddCategory ? (
+                  {isPendingMutateDeleteCategory ? (
                     <Spinner size="sm" color="white" />
                   ) : (
-                    "Create Category"
-                  )} */}
-                  Delete Category
+                    "Delete Category"
+                  )}
                 </Button>
               </div>
             </ModalFooter>
