@@ -5,6 +5,8 @@ import instance from "@/libs/axios/instance";
 const categoryServices = {
     getCategories: (params?: string) => 
         instance.get(`${endpoint.CATEGORY}?${params}`),
+    getCategoryById: (id: string) => 
+        instance.get(`${endpoint.CATEGORY}/${id}`),
     addCategory: (payload: ICategory) => 
         instance.post(endpoint.CATEGORY, payload),
     deleteCategory: (id: string) =>

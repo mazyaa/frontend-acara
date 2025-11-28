@@ -8,7 +8,7 @@ import { ChangeEvent, useState } from "react";
 const useCategory = () => {
     const [ selectedId, setSelectedId ] = useState<string>("");
     const router = useRouter();
-    const debounce= useDebounce();
+    const debounce= useDebounce(); // use debounce works for delay input, must use debounce because if not, it will call api every key stroke
     const currentLimit = router.query.limit;
     const currentPage = router.query.page;
     const currentSearch = router.query.search;

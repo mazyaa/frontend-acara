@@ -44,17 +44,17 @@ const Category = () => {
   const addCategoryModal = useDisclosure(); // use for controlling modal open close
   const deleteCategoryModal = useDisclosure();
 
-  const renderCell = useCallback(
+  const renderCell = useCallback( // use useCallback works to optimize performance 
     // use useCallback to memoize the function, so it only re-created when dependencies change
     (category: Record<string, unknown>, columnKey: Key) => {
       // Key = string | number
       const cellValue = category[columnKey as keyof typeof category];
 
       switch (columnKey) {
-        // case "icon":
-        //   return (
-        //     <Image src={`${cellValue}`} alt="icon" width={100} height={200} />
-        //   );
+        case "icon":
+          return (
+            <Image src={`${cellValue}`} alt="icon" width={100} height={200} />
+          );
         case "actions":
           return (
             <Dropdown>
@@ -67,7 +67,7 @@ const Category = () => {
               <DropdownMenu>
                 <DropdownItem
                   key="detail-category-button"
-                  onPress={() => push(`/admin/category/${category.id}`)}
+                  onPress={() => push(`/admin/category/${category._id}`)}
                 >
                   Detail Catgeory
                 </DropdownItem>
