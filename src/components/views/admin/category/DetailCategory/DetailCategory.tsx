@@ -1,8 +1,18 @@
+import { Tab, Tabs } from "@heroui/react";
+
 const DetailCategory = () => {
     return (
-        <div>
-            <div>Testing Page Detail Category</div>
-        </div>
+        <Tabs aria-label="Options">
+            <Tab key="cover" title="Cover">
+                Cover
+            </Tab>
+            <Tab key="info" title="Info">
+                Info
+            </Tab>
+            <Tab key="location" title="Location">
+                Location
+            </Tab>
+        </Tabs>
     )
 }
 
