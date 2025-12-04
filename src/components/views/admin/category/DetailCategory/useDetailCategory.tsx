@@ -21,3 +21,5 @@ const useDetailCategory = () => {
         dataCategory,
     };
  }
+
+ export default useDetailCategory;
