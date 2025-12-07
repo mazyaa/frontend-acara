@@ -107,10 +107,10 @@ const AddCategoryModal = (props: PropTypes) => {
                 <p className="text-sm font-bold">Icon</p>
                 <Controller
                   name="icon"
-                  control={control}
+                  control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
                   render={({ field: { onChange, value, ...field } }) => (
                     <InputFile
-                      {...field} // inject some propperties like onChange, value, name, ref from react hook form to Input component
+                      {...field} // inject some propperties like onChange, value, name, ref from react hook form to Input component because by default some properties like onChange and value are not connected to react hook form
                       onDelete={() => handleDeleteIcon(onChange)} // onChange is coming from react hook form for setting value to form
                       onUpload={(files) => handleUploadIcon(files, onChange)} // params files is coming from handleOnUpload in InputFile component, onChange is coming from react hook form for setting value to form
                       isUploading={isPendingMutateUploadFile}
