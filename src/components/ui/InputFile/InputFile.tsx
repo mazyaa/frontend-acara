@@ -1,7 +1,7 @@
 import cn from "@/utils/cn";
 import Image from "next/image";
 import { Button, Spinner } from "@heroui/react";
-import { ChangeEvent, useEffect, useId, useRef, useState } from "react";
+import { ChangeEvent, ReactNode, useEffect, useId, useRef, useState } from "react";
 import { CiSaveUp2, CiTrash } from "react-icons/ci";
 
 interface PropTypes {
@@ -11,6 +11,7 @@ interface PropTypes {
   isDeleting?: boolean;
   isInvalid?: boolean;
   isUploading?: boolean;
+  label: ReactNode;
   name: string;
   onUpload: (files: FileList) => void;
   onDelete: () => void;
@@ -24,6 +25,7 @@ const InputFile = (props: PropTypes) => {
     isDropable,
     isDeleting,
     isUploading,
+    label,
     name,
     onUpload,
     onDelete,
@@ -38,15 +40,15 @@ const InputFile = (props: PropTypes) => {
   const handleDragOver = (e: DragEvent) => {
     if (isDropable) {
       // only allow drag over if isDropable is true
-      e.preventDefault();
-      e.stopPropagation();
+      e.preventDefault(); // for preventing default behavior of opening the file in the browser  
+      e.stopPropagation(); // for preventing event bubbling (event bubbling is the event that propagates up the DOM tree)
     }
   };
 
     // get file via drag and drop zone
     const handleDrop = (e: DragEvent) => {
       e.preventDefault();
-      const files = e.dataTransfer?.files;
+      const files = e.dataTransfer?.files; // get files from the dataTransfer object
       if (files && onUpload) {
         onUpload(files); // set files to function onUpload passed via props
       }
@@ -70,7 +72,7 @@ const InputFile = (props: PropTypes) => {
     // handle file input change event (for handling file selection via click)
     const handleOnUpload = (e: ChangeEvent<HTMLInputElement>) => {
       const files = e.currentTarget.files;
-      if (files && onUpload) {
+      if (files && onUpload) { // if files exist and onUpload function is provided
         onUpload(files); // set files to function onUpload passed via props
       }
     };
@@ -78,6 +80,7 @@ const InputFile = (props: PropTypes) => {
 
   return (
     <div>
+      {label}
       <label
         ref={drop} // reference to the label element for drag and drop events
         htmlFor={`dropzone-file-${dropZoneId}`}

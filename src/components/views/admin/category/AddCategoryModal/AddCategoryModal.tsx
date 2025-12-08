@@ -64,12 +64,13 @@ const AddCategoryModal = (props: PropTypes) => {
       <form onSubmit={handleSubmitForm(handleAddCategory)}>
         <ModalContent className="m-4">
           <ModalHeader>
-            <h3 className="">Add Category</h3>
+            <h3>Add Category</h3>
           </ModalHeader>
           <ModalBody>
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-3">
                 <p className="text-sm font-bold">Infromation</p>
+
                 <Controller
                   name="name"
                   control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
@@ -104,7 +105,6 @@ const AddCategoryModal = (props: PropTypes) => {
               </div>
 
               <div className="flex flex-col gap-3">
-                <p className="text-sm font-bold">Icon</p>
                 <Controller
                   name="icon"
                   control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
@@ -118,6 +118,7 @@ const AddCategoryModal = (props: PropTypes) => {
                       isInvalid={errors.icon !== undefined} // show input error state if have error
                       errorMessage={errors.icon?.message}
                       preview={typeof preview === "string" ? preview : ""}
+                      label={<p className="font-bold text-sm my-2">Icon</p>}
                       isDropable
                     />
                   )}
