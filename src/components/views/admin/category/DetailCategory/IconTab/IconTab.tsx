@@ -12,7 +12,6 @@ const IconTab = (props: PropTypes) => {
   return (
     <Card className="w-full lg:w-1/2">
       <CardHeader className="flex-col items-start gap-1">
-        {" "}
         {/** use items start because default is center */}
         <h1 className="text-xl font-bold">Category Icon</h1>
         <p className="text-sm text-default-400">Manage icon of this category</p>

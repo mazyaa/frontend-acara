@@ -81,7 +81,6 @@ const AddCategoryModal = (props: PropTypes) => {
                       className="rounded"
                       variant="bordered"
                       label="Name"
-                      type="text"
                       isInvalid={errors.name !== undefined}
                       errorMessage={errors.name?.message}
                     />

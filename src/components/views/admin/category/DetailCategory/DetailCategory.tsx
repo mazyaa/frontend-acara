@@ -11,7 +11,7 @@ const DetailCategory = () => {
                 <IconTab currentIcon={dataCategory?.icon} name={dataCategory?.name} />
             </Tab>
             <Tab key="info" title="Info">
-                <InfoTab />
+                <InfoTab dataCategory={dataCategory}/>
             </Tab>
             {/* <Tab key="location" title="Location">
                 Location
