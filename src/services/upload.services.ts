@@ -2,8 +2,8 @@ import instance from '@/libs/axios/instance';
 import endpoint from '@/services/endpoint.constant';
 import { IFileUrl } from '@/types/File';
 
-const formDataHeader = {
-    headers: {
+const formDataHeader = { 
+    headers: { // use header for knowing backend that we are sending form data
         "Content-Type": "multipart/form-data"
     }
 }

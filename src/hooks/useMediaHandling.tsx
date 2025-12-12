@@ -23,7 +23,7 @@ const useMediaHandling = () => {
         mutate: mutateUploadFile,
         isPending: isPendingMutateUploadFile,
       } = useMutation({
-        mutationFn: (variables: { // must be destructured like thise because function uploadFile have 2 parameters
+        mutationFn: (variables: { // must be destructured like this because function uploadFile have 2 parameters
             file: File,
             callback: (fileUrl: string) => void
         }) => uploadFile(variables.file, variables.callback),
