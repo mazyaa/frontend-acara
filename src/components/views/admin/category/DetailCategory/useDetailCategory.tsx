@@ -1,6 +1,11 @@
 import categoryServices from "@/services/category.service";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import * as yup from "yup";
+
+const schemaUpdateIcon = yup.object().shape({
+    icon: yup.mixed<FileList>().required("Please input icon of category"),
+});
 
 const useDetailCategory = () => {
     const {query, isReady} = useRouter(); // destructure query and isReady from useRouter for handling dynamic routes
