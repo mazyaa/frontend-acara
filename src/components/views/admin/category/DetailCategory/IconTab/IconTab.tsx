@@ -1,6 +1,7 @@
 import InputFile from "@/components/ui/InputFile";
 import { Button, Card, CardBody, CardHeader, Skeleton } from "@heroui/react";
 import Image from "next/image";
+import useIconTab from "./useIconTab";
 
 interface PropTypes {
   currentIcon: string;
@@ -9,6 +10,18 @@ interface PropTypes {
 
 const IconTab = (props: PropTypes) => {
   const { currentIcon, name } = props;
+  const {
+     handleDeleteIcon,
+    handleUploadIcon,
+    isPendingMutateDeleteFile,
+    isPendingMutateUploadFile,
+
+    controlUpdateIcon,
+    errorsUpdateIcon,
+    handleSubmitUpdateIcon,
+    preview,
+  } = useIconTab();
+  
   return (
     <Card className="w-full lg:w-1/2">
       <CardHeader className="flex-col items-start gap-1">

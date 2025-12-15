@@ -66,6 +66,7 @@ const useAddCategoryModal = () => {
   }
 
   //create onClose modal
+  //for deleting uploaded icon when modal closed
   const handelOnCLose = (
     onCLose: () => void
   ) => {
