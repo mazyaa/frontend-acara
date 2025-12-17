@@ -14,7 +14,12 @@ const DetailCategory = () => {
   return (
     <Tabs aria-label="Options">
       <Tab key="cover" title="Cover">
-        <IconTab currentIcon={dataCategory?.icon} name={dataCategory?.name} />
+        <IconTab
+          currentIcon={dataCategory?.icon}
+          name={dataCategory?.name}
+          isPendingUpdate={isPendingMutateUpdateCategory}
+          onUpdate={handleUpdateCategory}
+        />
       </Tab>
       <Tab key="info" title="Info">
         <InfoTab dataCategory={dataCategory} />
