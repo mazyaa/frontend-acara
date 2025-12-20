@@ -71,6 +71,7 @@ const useIconTab = () => {
     isPendingMutateDeleteFile,
     isPendingMutateUploadFile,
 
+    resetUpdateIcon,
     controlUpdateIcon,
     errorsUpdateIcon,
     handleSubmitUpdateIcon,

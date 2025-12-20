@@ -11,10 +11,10 @@ const useInfotab = () => {
   // create control form for SchemaUpdateCategory
   const {
     control: controlUpdateInfo, // use for controlling handling value form
-    handleSubmit: handleSubmitlUpdateInfo, // use for handling submit form (validate first then call function)
+    handleSubmit: handleSubmitUpdateInfo, // use for handling submit form (validate first then call function)
     formState: { errors: errorsUpdateInfo }, // use for getting error message from validation
     reset: resetUpdateInfo, // use for reset form
-    setValue: setValueUpdateInfo,
+    setValue: setValueUpdateInfo, 
   } = useForm({
     resolver: yupResolver(schemaUpdateCategory), // resolver validation by yup schema
   });
@@ -23,7 +23,7 @@ const useInfotab = () => {
     errorsUpdateInfo,
     resetUpdateInfo,
     setValueUpdateInfo,
-    handleSubmitlUpdateInfo,
+    handleSubmitUpdateInfo,
   };
 };
 

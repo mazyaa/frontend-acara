@@ -2,6 +2,7 @@ import { Tab, Tabs } from "@heroui/react";
 import IconTab from "./IconTab";
 import InfoTab from "./InfoTab";
 import useDetailCategory from "./useDetailCategory";
+import useMediaHandling from "@/hooks/useMediaHandling";
 
 const DetailCategory = () => {
   const {
@@ -11,6 +12,7 @@ const DetailCategory = () => {
     isPendingMutateUpdateCategory,
     isSuccessMutateUpdateCategory,
   } = useDetailCategory();
+
   return (
     <Tabs aria-label="Options">
       <Tab key="cover" title="Cover">
@@ -19,10 +21,17 @@ const DetailCategory = () => {
           name={dataCategory?.name}
           isPendingUpdate={isPendingMutateUpdateCategory}
           onUpdate={handleUpdateCategory}
+          isSuccessUpdateIcon={isSuccessMutateUpdateCategory}
         />
       </Tab>
       <Tab key="info" title="Info">
-        <InfoTab dataCategory={dataCategory} />
+        <InfoTab
+          dataCategory={dataCategory}
+          name={dataCategory?.name}
+          isPendingUpdate={isPendingMutateUpdateCategory}
+          onUpdate={handleUpdateCategory}
+          isSuccessUpdate={isSuccessMutateUpdateCategory}
+        />
       </Tab>
       {/* <Tab key="location" title="Location">
                 Location

@@ -64,7 +64,7 @@ const useMediaHandling = () => {
         isPendingMutateUploadFile,
         mutateDeleteFile,
         isPendingMutateDeleteFile,
-      }
+      };
 }
 
 export default useMediaHandling;

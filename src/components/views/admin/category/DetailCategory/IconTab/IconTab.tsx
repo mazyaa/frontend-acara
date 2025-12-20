@@ -10,27 +10,39 @@ import {
 import Image from "next/image";
 import useIconTab from "./useIconTab";
 import { Controller } from "react-hook-form";
+import { useEffect } from "react";
 
 interface PropTypes {
   currentIcon: string;
+  onUpdate: (data: { icon: FileList | string }) => void;
   name: string;
   isPendingUpdate: boolean;
-  onUpdate: (data: {icon: FileList | string}) => void;
+  isSuccessUpdateIcon: boolean
 }
 
+
 const IconTab = (props: PropTypes) => {
-  const { currentIcon, name, onUpdate, isPendingUpdate } = props;
+  const { currentIcon, name, onUpdate, isPendingUpdate, isSuccessUpdateIcon } = props;
   const {
     handleDeleteIcon,
     handleUploadIcon,
     isPendingMutateDeleteFile,
     isPendingMutateUploadFile,
-
+    
+    resetUpdateIcon,
     controlUpdateIcon,
     errorsUpdateIcon,
     handleSubmitUpdateIcon,
     preview,
   } = useIconTab();
+  
+  useEffect(() => {
+    if (isSuccessUpdateIcon) {
+      resetUpdateIcon();
+    }
+  }, [isSuccessUpdateIcon]);
+
+  const disabledButton = isPendingMutateUploadFile || isPendingUpdate || !preview;
 
   return (
     <Card className="w-full lg:w-1/2">
@@ -41,7 +53,10 @@ const IconTab = (props: PropTypes) => {
       </CardHeader>
 
       <CardBody>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmitUpdateIcon(onUpdate)}>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={handleSubmitUpdateIcon(onUpdate)}
+        >
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium text-default-700">Current Icon</p>
             <Skeleton
@@ -64,25 +79,46 @@ const IconTab = (props: PropTypes) => {
                   isInvalid={errorsUpdateIcon.icon !== undefined} // show input error state if have error
                   errorMessage={errorsUpdateIcon.icon?.message}
                   preview={typeof preview === "string" ? preview : ""}
-                  label={<p className="my-2 text-sm font-bold">Upload new icon</p>}
+                  label={
+                    <p className="my-2 text-sm font-bold">Upload new icon</p>
+                  }
                   isDropable
                 />
               )}
             />
           </div>
 
-          <Button
-            className="font-medium text-white"
-            color="danger"
-            type="submit"
-            disabled={isPendingMutateUploadFile || isPendingUpdate}
-          >
-            {isPendingUpdate ? (
-              <Spinner size="sm" color="white" />
-            ) : (
-              "Save Changes"
-            )}
-          </Button>
+          {disabledButton ? (
+            <Button
+              className="font-medium text-white"
+              color="default"
+              type="submit"
+              disabled={
+                isPendingMutateUploadFile || isPendingUpdate || !preview
+              }
+            >
+              {isPendingUpdate ? (
+                <Spinner size="sm" color="white" />
+              ) : (
+                "Save Changes"
+              )}
+            </Button>
+          ) : (
+            <Button
+              className="font-medium text-white"
+              color="danger"
+              type="submit"
+              disabled={
+                isPendingMutateUploadFile || isPendingUpdate || !preview
+              }
+            >
+              {isPendingUpdate ? (
+                <Spinner size="sm" color="white" />
+              ) : (
+                "Save Changes"
+              )}
+            </Button>
+          )}
         </form>
       </CardBody>
     </Card>
