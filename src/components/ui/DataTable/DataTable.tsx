@@ -1,4 +1,5 @@
 import { LIMIT_LISTS } from "@/constants/list.constants";
+import useChangeUrl from "@/hooks/useChangeUrl";
 import cn from "@/utils/cn";
 import {
   Button,
@@ -25,10 +26,6 @@ interface PropTypes {
   emptyContent: string;
   isLoading?: boolean;
   limit: string;
-  onChangeLimit: (e: ChangeEvent<HTMLSelectElement>) => void;
-  onChangePage: (page: number) => void;
-  onChangeSearch: (e: ChangeEvent<HTMLInputElement>) => void;
-  onClearSearch: () => void;
   onClickButtonTopContent?: () => void;
   renderCell: (
     item: Record<string, unknown>,
@@ -39,6 +36,13 @@ interface PropTypes {
 
 const DataTable = (props: PropTypes) => {
   const {
+    handleChangePage,
+    handleChangeLimit,
+    handleSearch,
+    handleClearSearch,
+  } = useChangeUrl();
+
+  const {
     buttonTopContenLabel,
     columns,
     currentPage,
@@ -46,50 +50,52 @@ const DataTable = (props: PropTypes) => {
     emptyContent,
     limit,
     isLoading,
-    onChangeLimit,
-    onChangePage,
-    onChangeSearch,
-    onClearSearch,
     onClickButtonTopContent,
     renderCell,
     totalPages,
   } = props;
 
+  // use useMemo for only re-render when dependencies change if dependencies no change, no re-render
   const topContent = useMemo(() => {
     // use useMemo for only re-render when dependencies change if dependencies no change, no re-render
     return (
       <div className="justify-beetween flex flex-col-reverse items-start gap-y-4 lg:flex-row lg:items-center lg:justify-between">
+
+        {/* Search Input */}
         <Input
           isClearable
           className="w-full sm:max-w-[24%]"
           startContent={<CiSearch />}
           placeholder="Search by Name"
-          onClear={onClearSearch}
-          onChange={onChangeSearch}
+          onClear={handleClearSearch}
+          onChange={handleSearch}
         />
+        {/* button top content */}
         {buttonTopContenLabel && (
           <Button color="danger" onPress={onClickButtonTopContent}>
-            {buttonTopContenLabel}
+            {buttonTopContenLabel} {/* e.g. Create Category  */}
           </Button>
         )}
       </div>
     );
-  }, [
+  }, 
+  [
     buttonTopContenLabel,
-    onChangeSearch,
-    onClearSearch,
+    handleSearch,
+    handleClearSearch,
     onClickButtonTopContent,
-  ]);
+  ]); {/* dependencies */}
 
   const BottomContent = useMemo(() => {
     return (
       <div className="item-center flex justify-center px-2 py-2 lg:justify-between">
+        {/* Select limit content view */}
         <Select
           className="hidden max-w-36 lg:block"
           size="md"
           selectedKeys={[limit]}
           selectionMode="single"
-          onChange={onChangeLimit}
+          onChange={handleChangeLimit}
           startContent={<p className="text-small">Show:</p>}
           disallowEmptySelection
         >
@@ -99,6 +105,8 @@ const DataTable = (props: PropTypes) => {
             </SelectItem>
           ))}
         </Select>
+
+        {/* Pagination content view */}
         {totalPages > 1 && (
           <Pagination
           isCompact
@@ -106,13 +114,13 @@ const DataTable = (props: PropTypes) => {
           color="danger"
           page={currentPage}
           total={totalPages}
-          onChange={onChangePage}
+          onChange={handleChangePage}
           loop // for looping pagination
         />
         ) }
       </div>
     );
-  }, [limit, currentPage, onChangeLimit, onChangePage, totalPages]);
+  }, [limit, currentPage, handleChangeLimit, handleChangePage, totalPages]);
 
   return (
     <Table
@@ -125,6 +133,7 @@ const DataTable = (props: PropTypes) => {
         wrapper: cn({"overflow-x-hidden": isLoading}),
        }}
     >
+      {/* Table Header */}
       <TableHeader columns={columns}>
         {(column) => (
           <TableColumn key={column.uid as Key}>
@@ -133,6 +142,7 @@ const DataTable = (props: PropTypes) => {
         )}
       </TableHeader>
 
+      {/* Table Body */}
       <TableBody
         items={data}
         emptyContent={emptyContent}
@@ -143,6 +153,7 @@ const DataTable = (props: PropTypes) => {
           </div>
         }
       >
+        {/* Table Row */}
         {(item) => (
           <TableRow key={item._id as Key}>
             {(columnKey) => (

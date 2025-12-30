@@ -16,6 +16,7 @@ import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 import useCategory from "./useCategory";
 import AddCategoryModal from "./AddCategoryModal";
 import DeleteCategoryModal from "./DeleteCategoryModal";
+import useChangeUrl from "@/hooks/useChangeUrl";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
@@ -23,7 +24,6 @@ const Category = () => {
     currentPage,
     currentLimit,
     currentSearch,
-    setURL,
     dataCategory,
     handleChangeLimit,
     handleChangePage,
@@ -37,9 +37,13 @@ const Category = () => {
   } = useCategory();
   console.log(dataCategory);
 
+  const { setUrl } = useChangeUrl();
+
   useEffect(() => {
-    setURL();
-  }, []);
+    if (isReady) {
+      setUrl();
+    }
+  }, [isReady]);
 
   const addCategoryModal = useDisclosure(); // use for controlling modal open close
   const deleteCategoryModal = useDisclosure();
@@ -102,10 +106,6 @@ const Category = () => {
         emptyContent="No category found"
         isLoading={isLoadingCategory || isRefetchingCategory}
         limit={String(currentLimit)}
-        onChangeLimit={handleChangeLimit}
-        onChangePage={handleChangePage}
-        onChangeSearch={handleSearch}
-        onClearSearch={handleClearSearch}
         onClickButtonTopContent={() => {
         addCategoryModal.onOpen();
         }} // open modal when button clicked use method from useDisclosure (onOpen)

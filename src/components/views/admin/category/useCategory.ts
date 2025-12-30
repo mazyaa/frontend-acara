@@ -13,15 +13,6 @@ const useCategory = () => {
     const currentPage = router.query.page;
     const currentSearch = router.query.search;
 
-    const setURL = () => {
-        router.replace({
-            query: {
-                limit: currentLimit || LIMIT_DEFAULT,
-                page: currentPage || PAGE_DEFAULT,
-                search: currentSearch || '',
-            }
-        });
-    };
 
     const getCategories = async () => {
         let params = `limit=${currentLimit}&page=${currentPage}`;
@@ -104,7 +95,6 @@ const useCategory = () => {
         selectedId,
         setSelectedId,
         
-        setURL,
         currentPage,
         currentLimit,
         currentSearch,
