@@ -21,14 +21,7 @@ import useChangeUrl from "@/hooks/useChangeUrl";
 const Category = () => {
   const { push, isReady, query } = useRouter();
   const {
-    currentPage,
-    currentLimit,
-    currentSearch,
     dataCategory,
-    handleChangeLimit,
-    handleChangePage,
-    handleClearSearch,
-    handleSearch,
     isLoadingCategory,
     isRefetchingCategory,
     refetchCategory,
@@ -101,16 +94,14 @@ const Category = () => {
       <DataTable
         buttonTopContenLabel="Create Category"
         columns={COLUMN_LIST_CATEGORY}
-        currentPage={Number(currentPage) || 1}
         data={dataCategory?.data || []}
         emptyContent="No category found"
         isLoading={isLoadingCategory || isRefetchingCategory}
-        limit={String(currentLimit)}
         onClickButtonTopContent={() => {
         addCategoryModal.onOpen();
         }} // open modal when button clicked use method from useDisclosure (onOpen)
         renderCell={renderCell}
-        totalPages={dataCategory ? dataCategory.pagination.totalPages : 1}
+        totalPages={dataCategory ? dataCategory.pagination.totalPages : 1} // default 1 if no data
       />
       )}
       <AddCategoryModal

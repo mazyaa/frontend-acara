@@ -71,6 +71,10 @@ const useChangeUrl = () => {
     };
 
     return {
+        currentLimit,
+        currentPage,
+        currentSearch,
+
         setUrl,
         handleChangePage,
         handleChangeLimit,

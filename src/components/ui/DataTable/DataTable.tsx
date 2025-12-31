@@ -21,11 +21,9 @@ import { CiSearch } from "react-icons/ci";
 interface PropTypes {
   buttonTopContenLabel?: string;
   columns: Record<string, unknown>[];
-  currentPage: number;
   data: Record<string, unknown>[];
   emptyContent: string;
   isLoading?: boolean;
-  limit: string;
   onClickButtonTopContent?: () => void;
   renderCell: (
     item: Record<string, unknown>,
@@ -36,24 +34,24 @@ interface PropTypes {
 
 const DataTable = (props: PropTypes) => {
   const {
-    handleChangePage,
-    handleChangeLimit,
-    handleSearch,
-    handleClearSearch,
-  } = useChangeUrl();
-
-  const {
     buttonTopContenLabel,
     columns,
-    currentPage,
     data,
     emptyContent,
-    limit,
     isLoading,
     onClickButtonTopContent,
     renderCell,
     totalPages,
   } = props;
+
+  const {
+    currentLimit,
+    currentPage,
+    handleChangePage,
+    handleChangeLimit,
+    handleSearch,
+    handleClearSearch,
+  } = useChangeUrl();
 
   // use useMemo for only re-render when dependencies change if dependencies no change, no re-render
   const topContent = useMemo(() => {
@@ -93,7 +91,7 @@ const DataTable = (props: PropTypes) => {
         <Select
           className="hidden max-w-36 lg:block"
           size="md"
-          selectedKeys={[limit]}
+          selectedKeys={[`${currentLimit}`]} // force as array of string
           selectionMode="single"
           onChange={handleChangeLimit}
           startContent={<p className="text-small">Show:</p>}
@@ -112,7 +110,7 @@ const DataTable = (props: PropTypes) => {
           isCompact
           showControls
           color="danger"
-          page={currentPage}
+          page={Number(currentPage) || 1}
           total={totalPages}
           onChange={handleChangePage}
           loop // for looping pagination
@@ -120,7 +118,7 @@ const DataTable = (props: PropTypes) => {
         ) }
       </div>
     );
-  }, [limit, currentPage, handleChangeLimit, handleChangePage, totalPages]);
+  }, [currentLimit, currentPage, handleChangeLimit, handleChangePage, totalPages]);
 
   return (
     <Table
