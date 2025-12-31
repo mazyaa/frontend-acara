@@ -5,3 +5,5 @@ const eventServices = {
     getALlEvents: (params?: string) => 
         instance.get(`${endpoint.EVENT}?${params}`),
 }
+
+export default eventServices;
