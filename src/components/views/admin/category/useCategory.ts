@@ -20,19 +20,16 @@ const useCategory = () => {
     };
 
     // use useQuery to fetch data and make is easier to manage state
-    // useQuery = (queryKey, queryFn, options)
-    // queryKey = unique key to identify the query
-    // queryFn = function to fetch data
-    // options = { enabled: boolean } to enable or disable the query
     const { 
+        // rename the returned values to avoid conflict when multiple useQuery is used
         data: dataCategory,
         isLoading: isLoadingCategory, 
         isRefetching: isRefetchingCategory, 
         refetch: refetchCategory ,
     } = useQuery({
-        queryKey: ['Category', currentPage, currentLimit, currentSearch],
-        queryFn: getCategories,
-        enabled: router.isReady && !!currentPage && !!currentLimit, // use !! = must be true
+        queryKey: ['Category', currentPage, currentLimit, currentSearch], // for caching and identifying the query ex. ['Category', 1, 10, 'exampleSearch']
+        queryFn: getCategories, // for fetching data, but must be return a promise
+        enabled: router.isReady && !!currentPage && !!currentLimit, // is a dependency the useQuery is run by that value or condition is true
     });
 
 

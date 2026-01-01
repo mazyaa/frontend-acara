@@ -24,19 +24,16 @@ const useEvent = () => {
     }
 
     // use useQuery to fetch data and make is easier to manage state
-    // useQuery = (queryKey, queryFn, options)
-    // queryKey = unique key to identify the query
-    // queryFn = function to fetch data
-    // options = { enabled: boolean } to enable or disable the query
     const {
+        // rename the returned values to avoid conflict when multiple useQuery is used
         data: dataEvent,
         isLoading: isLoadingEvent,
         isRefetching: isRefetchingEvent,
         refetch: refetchEvent,
     } = useQuery({
-        queryKey: ['Event', currentPage, currentLimit, currentSearch],
-        queryFn: getEvents,
-        enabled: router.isReady && !!currentPage && !!currentLimit,
+        queryKey: ['Event', currentPage, currentLimit, currentSearch], // for caching and identifying the query ex. ['Event', 1, 10, 'exampleSearch']
+        queryFn: getEvents, // for fetching data, but must be return a promise
+        enabled: router.isReady && !!currentPage && !!currentLimit, // is a dependency the useQuery is run by that value or condition is true
     })
 
     return {
