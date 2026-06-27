@@ -14,7 +14,7 @@ const useChangeUrl = () => {
 
     // for setting url with default values if no query params
     const setUrl = () => {
-        router.replace({
+        router.replace({ // replace is use for change url without reload page, if use push it will reload page
             query: {
                 limit: currentLimit || LIMIT_DEFAULT,
                 page: currentPage || PAGE_DEFAULT,
@@ -53,7 +53,7 @@ const useChangeUrl = () => {
                 query: { // use query for change url without reload page 
                     ...router.query,
                     search,
-                    page: PAGE_DEFAULT,
+                    page: PAGE_DEFAULT, // set page to 1 because if user search it will reset page to 1
                 }
             });
         }, DELAY);
@@ -65,7 +65,7 @@ const useChangeUrl = () => {
             query: { // use query for change url without reload page
                 ...router.query,
                 search: '',
-                page: PAGE_DEFAULT,
+                page: PAGE_DEFAULT, // set page to 1 because if user clear search it will reset page to 1
             }
         });
     };

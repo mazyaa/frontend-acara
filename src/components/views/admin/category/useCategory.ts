@@ -27,7 +27,7 @@ const useCategory = () => {
         isRefetching: isRefetchingCategory, 
         refetch: refetchCategory ,
     } = useQuery({
-        queryKey: ['Category', currentPage, currentLimit, currentSearch], // for caching and identifying the query ex. ['Category', 1, 10, 'exampleSearch']
+        queryKey: ['Categories', currentPage, currentLimit, currentSearch], // for caching data, so if the queryKey is the same it will return the cached data, but if the queryKey is different it will fetch new data
         queryFn: getCategories, // for fetching data, but must be return a promise
         enabled: router.isReady && !!currentPage && !!currentLimit, // is a dependency the useQuery is run by that value or condition is true
     });

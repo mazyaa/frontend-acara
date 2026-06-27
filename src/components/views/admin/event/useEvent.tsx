@@ -18,7 +18,7 @@ const useEvent = () => {
         }
 
         // call event service to get events
-        const res = await eventServices.getALlEvents(params);
+        const res = await eventServices.getAllEvents(params);
         const { data } = res;
         return data;
     }
@@ -26,21 +26,21 @@ const useEvent = () => {
     // use useQuery to fetch data and make is easier to manage state
     const {
         // rename the returned values to avoid conflict when multiple useQuery is used
-        data: dataEvent,
-        isLoading: isLoadingEvent,
-        isRefetching: isRefetchingEvent,
-        refetch: refetchEvent,
+        data: dataEvents,
+        isLoading: isLoadingEvents,
+        isRefetching: isRefetchingEvents,
+        refetch: refetchEvents,
     } = useQuery({
-        queryKey: ['Event', currentPage, currentLimit, currentSearch], // for caching and identifying the query ex. ['Event', 1, 10, 'exampleSearch']
+        queryKey: ['Events', currentPage, currentLimit, currentSearch], // for caching and identifying the query ex. ['Event', 1, 10, 'exampleSearch']
         queryFn: getEvents, // for fetching data, but must be return a promise
         enabled: router.isReady && !!currentPage && !!currentLimit, // is a dependency the useQuery is run by that value or condition is true
     })
 
     return {
-        dataEvent,
-        isLoadingEvent,
-        isRefetchingEvent,
-        refetchEvent,
+        dataEvents,
+        isLoadingEvents,
+        isRefetchingEvents,
+        refetchEvents,
         selectedId,
         setSelectedId,
     };
