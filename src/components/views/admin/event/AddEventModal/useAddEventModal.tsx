@@ -2,6 +2,7 @@ import { ToasterContext } from "@/context/ToasterContext";
 import useMediaHandling from "@/hooks/useMediaHandling";
 import categoryServices from "@/services/category.service";
 import { ICategory } from "@/types/Category";
+import { DateValue } from "@heroui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
@@ -10,20 +11,29 @@ import * as yup from "yup";
 
 const schema = yup.object().shape({
   name: yup.string().required("Please input name"),
+  slug: yup.string().required("Please input slug"),
+  category: yup.string().required("Please input category"),
+  startDate: yup.mixed<DateValue>().required("Please input start date"),
+  endDate: yup.mixed<DateValue>().required("Please input end date"),
+  isPublish: yup.string().required("Please select publish status"),
+  isFeatured: yup.string().required("Please select featured"),
   description: yup.string().required("Please input description"),
-  icon: yup.mixed<FileList | string>().required("Please upload an icon"),
+  isOnline: yup.string().required("Please select online or offline"),
+  region: yup.string().required("Please select region"),
+  banner: yup.mixed<FileList | string>().required("Please upload an banner"),
 });
 
-const useAddCategoryModal = () => {
+const useAddEventModal = () => {
   const { setToaster } = useContext(ToasterContext);
   const {
-    isPendingMutateUploadFile,
-    isPendingMutateDeleteFile,
+      isPendingMutateUploadFile,
+      isPendingMutateDeleteFile,
 
-    handleUploadFile,
-    handleDeleteFile,
+      handleUploadFile,
+      handleDeleteFile,
   } = useMediaHandling();
 
+  
   // create control form
   const {
     control, // use for controlling handling value form
@@ -36,28 +46,28 @@ const useAddCategoryModal = () => {
   } = useForm({
     resolver: yupResolver(schema), // resolver validation by yup schema
   });
+  
+  const preview = watch("banner");
+  const fileUrl = getValues("banner");
 
-  const preview = watch("icon");
-  const fileUrl = getValues("icon");
-
-  //create handle upload icon
-  const handleUploadIcon = (
+  //create handle upload banner
+  const handleUploadBanner = (
     files: FileList,
     onChange: (files: FileList | undefined) => void,
   ) => {
    handleUploadFile(files, onChange, (fileUrl: string) => {
-      setValue("icon", fileUrl); // set value field in db "icon" with fileUrl after upload success
+      setValue("banner", fileUrl); // set value field in db "banner" with fileUrl after upload success
     });
   };
 
   // create handle delete icon
-  const handleDeleteIcon = (
+  const handleDeleteBanner = (
     onChange: (files: FileList | undefined) => void,
   ) => {
     if (typeof fileUrl === "string") {
       handleDeleteFile(fileUrl, () => {
-        onChange(undefined); // set value to form as undefined
-      }); // after delete success set value form as undefined
+        onChange(undefined); // set value to form as undefined or empty
+      }); 
     }
   };
 
@@ -69,6 +79,8 @@ const useAddCategoryModal = () => {
       onClose(); // close modal after delete success
     });
   }
+
+
 
   // for adding new category
   const addCategory = async (payload: ICategory) => {
@@ -98,6 +110,8 @@ const useAddCategoryModal = () => {
     },
   });
 
+
+
   const handleAddCategory = (data: ICategory) => mutateAddCategory(data);
 
   return {
@@ -110,12 +124,13 @@ const useAddCategoryModal = () => {
     isSuccessMutateAddCategory,
 
     preview,
-    handleUploadIcon,
+    handleUploadBanner,
     isPendingMutateUploadFile,
-    handleDeleteIcon,
+    handleDeleteBanner,
     isPendingMutateDeleteFile,
-    handelOnCLose,
-  };
+    handelOnCLose
+  }
 };
 
-export default useAddCategoryModal;
+export default useAddEventModal;
+
