@@ -22,7 +22,6 @@ const Category = () => {
     selectedId,
     setSelectedId,
   } = useCategory();
-  console.log(dataCategory);
 
   const { setUrl } = useChangeUrl();
 

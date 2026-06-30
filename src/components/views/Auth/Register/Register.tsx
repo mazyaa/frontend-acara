@@ -18,7 +18,6 @@ const Register = () => {
     errors,
   } = useRegister();
 
-  console.log("Register errors:", errors);
   return (
     <>
       <div className="flex h-full w-full flex-col items-center justify-center gap-10 py-10 lg:flex-row lg:gap-20">

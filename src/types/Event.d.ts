@@ -8,19 +8,25 @@ interface IEvent {
     name: string;
     slug: string;
     category: string;
-    startDate: Date;
-    endDate: Date;
-    isPublish: boolean;
-    isFeatured: boolean;
+    startDate: string;
+    endDate: string;
+    isPublish: boolean | string;
+    isFeatured: boolean | string;
+    isOnline?: boolean | string;
     description: string;
-    location: {
+    location?: {
         region: string;
-        coordinate: {
-            x: number;
-            y: number;
-        }
+        coordinates: number[];
     }
-    banner: string;
+    banner: string | FileList;
 }
 
-export type { IEvent, IRegency };
+interface IEventForm extends IEvent {
+    region: string;
+    startDate: DateValue;
+    endDate: DateValue;
+    latitude: string;
+    longitude: string;
+}
+
+export type { IEvent, IRegency, IEventForm };

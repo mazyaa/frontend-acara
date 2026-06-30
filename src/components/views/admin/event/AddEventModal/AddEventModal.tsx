@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import useAddEventModal from "./useAddEventModal";
 import { ICategory } from "@/types/Category";
 import { IRegency } from "@/types/Event";
+import { getLocalTimeZone, now } from "@internationalized/date";
 
 interface PropTypes {
   isOpen: boolean;
@@ -148,6 +149,7 @@ const AddEventModal = (props: PropTypes) => {
                       label="Start Date"
                       hideTimeZone
                       showMonthAndYearPickers
+                      defaultValue={now(getLocalTimeZone())}
                       isInvalid={errors.startDate !== undefined}
                       errorMessage={errors.startDate?.message}
                     />
@@ -165,6 +167,7 @@ const AddEventModal = (props: PropTypes) => {
                       label="End Date"
                       hideTimeZone
                       showMonthAndYearPickers
+                      defaultValue={now(getLocalTimeZone())}
                       isInvalid={errors.endDate !== undefined}
                       errorMessage={errors.endDate?.message}
                     />
@@ -203,6 +206,24 @@ const AddEventModal = (props: PropTypes) => {
                     >
                       <SelectItem key="true">Yes</SelectItem>
                       <SelectItem key="false">No</SelectItem>
+                    </Select>
+                  )}
+                />
+
+                <Controller
+                  name="isOnline"
+                  control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      className="rounded"
+                      variant="bordered"
+                      label="Online or Offline"
+                      isInvalid={errors.isOnline !== undefined}
+                      errorMessage={errors.isOnline?.message}
+                    >
+                      <SelectItem key="true">Online</SelectItem>
+                      <SelectItem key="false">Offline</SelectItem>
                     </Select>
                   )}
                 />

@@ -4,10 +4,11 @@ import useDebounce from "@/hooks/useDebounce";
 import useMediaHandling from "@/hooks/useMediaHandling";
 import categoryServices from "@/services/category.service";
 import eventServices from "@/services/event.services";
-import { ICategory } from "@/types/Category";
-import { IEvent } from "@/types/Event";
+import { IEvent, IEventForm } from "@/types/Event";
+import { toDateStandard } from "@/utils/date";
 import { DateValue } from "@heroui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { getLocalTimeZone, now } from "@internationalized/date";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
@@ -58,6 +59,10 @@ const useAddEventModal = () => {
   
   const preview = watch("banner");
   const fileUrl = getValues("banner");
+
+  setValue('startDate', now(getLocalTimeZone()));
+  setValue('endDate', now(getLocalTimeZone()));
+
 
   //create handle upload banner
   const handleUploadBanner = (
@@ -145,7 +150,22 @@ const useAddEventModal = () => {
 
 
 
-  const handleAddEvent = (data: IEvent) => mutateAddEvent(data);
+  const handleAddEvent = (data: IEventForm) => {
+    const payload = {
+      ...data,
+      isFeatured: Boolean(data.isFeatured), // convert string to boolean
+      isPublish: Boolean(data.isPublish),
+      isOnline: Boolean(data.isOnline),
+      startDate: toDateStandard(data.startDate),
+      endDate: toDateStandard(data.endDate),
+      location: {
+        region: data.region,
+        coordinates: [Number(data.latitude), Number(data.longitude)],
+      },
+      banner: data.banner
+    };
+    mutateAddEvent(payload);
+  }
 
   return {
     control,
