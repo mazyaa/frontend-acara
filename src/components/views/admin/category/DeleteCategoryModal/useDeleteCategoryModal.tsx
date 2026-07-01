@@ -20,7 +20,7 @@ export const useDeleteCategoryModal = () => {
     onSuccess: () => {
       setToaster({
         type: "success",
-        message: "Category deleted successfyully!",
+        message: "Category deleted successfully!",
       });
     },
     onError: (error) => {

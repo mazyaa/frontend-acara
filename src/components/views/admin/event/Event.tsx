@@ -8,6 +8,7 @@ import useEvent from "./useEvent";
 import useChangeUrl from "@/hooks/useChangeUrl";
 import DropdownActions from "@/components/commons/DropdownActions";
 import AddEventModal from "./AddEventModal/AddEventModal";
+import DeleteEventModal from "./DeleteEventModal";
 
 const Event = () => {
   const { push, isReady, query } = useRouter();
@@ -43,7 +44,7 @@ const Event = () => {
         case "banner":
           return (
             <Image
-              className="w-56 rounded-lg object-cover aspect-video"
+              className="aspect-video w-56 rounded-lg object-cover"
               src={`${cellValue}`}
               alt="icon"
               width={200}
@@ -52,10 +53,14 @@ const Event = () => {
           );
         case "isPublish":
           return (
-            <Chip className={cellValue ? "success": "warning"} size="sm" variant="flat">
-              {cellValue === true ? "Published": "Not Published"}
+            <Chip
+              className={cellValue ? "success" : "warning"}
+              size="sm"
+              variant="flat"
+            >
+              {cellValue === true ? "Published" : "Not Published"}
             </Chip>
-          )
+          );
         case "actions":
           return (
             <DropdownActions
@@ -91,9 +96,12 @@ const Event = () => {
           totalPages={dataEvents ? dataEvents.pagination.totalPages : 1} // default 1 if no data
         />
       )}
-       <AddEventModal
-      {...addEventModal}
-      refetchEvent={refetchEvents}
+      <AddEventModal {...addEventModal} refetchEvent={refetchEvents} />
+      <DeleteEventModal
+        {...deleteEventModal}
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
+        refetchEvents={refetchEvents}
       />
     </section>
   );
