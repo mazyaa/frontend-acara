@@ -64,9 +64,10 @@ const Event = () => {
         case "actions":
           return (
             <DropdownActions
+              detailNameDropdown={"Detail Event"}
               keyDetailButton={"detail-event-button"}
               keyDeleteButton={"delete-event-button"}
-              onPressDetailButton={() => push(`/admin/event/${event._id}`)}
+              onPressDetailButton={() => push(`/admin/events/${event._id}`)}
               onPressDeleteButton={() => {
                 setSelectedId(`${event._id}`);
                 deleteEventModal.onOpen();

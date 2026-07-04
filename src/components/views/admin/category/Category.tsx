@@ -48,6 +48,7 @@ const Category = () => {
         case "actions":
           return (
             <DropdownActions
+              detailNameDropdown={"Detail Category"}
               keyDetailButton={"detail-category-button"}
               keyDeleteButton={"delete-category-button"}
               onPressDetailButton={() => push(`/admin/category/${category._id}`)}

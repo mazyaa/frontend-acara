@@ -1,8 +1,6 @@
 import { ToasterContext } from "@/context/ToasterContext";
-import useMediaHandling from "@/hooks/useMediaHandling";
 import categoryServices from "@/services/category.service";
 import { ICategory } from "@/types/Category";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useContext } from "react";

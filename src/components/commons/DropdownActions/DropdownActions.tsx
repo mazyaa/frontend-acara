@@ -2,6 +2,7 @@ import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@
 import { CiMenuKebab } from "react-icons/ci";
 
 interface PropTypes {
+  detailNameDropdown: string;
  keyDetailButton: string;
  keyDeleteButton: string;
  onPressDetailButton: () => void;
@@ -9,7 +10,7 @@ interface PropTypes {
 }
 
 const DropdownActions = (props: PropTypes) => {
-    const { keyDetailButton, keyDeleteButton, onPressDetailButton, onPressDeleteButton } = props;
+    const { detailNameDropdown, keyDetailButton, keyDeleteButton, onPressDetailButton, onPressDeleteButton } = props;
     return (
          <Dropdown>
               <DropdownTrigger>
@@ -23,7 +24,7 @@ const DropdownActions = (props: PropTypes) => {
                   key={keyDetailButton}
                   onPress={onPressDetailButton}
                 >
-                  Detail Catgeory
+                  {detailNameDropdown}
                 </DropdownItem>
                 <DropdownItem
                   key={keyDeleteButton}

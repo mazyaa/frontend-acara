@@ -5,20 +5,20 @@ interface IRegency {
 
 interface IEvent {
     _id?: string;
-    name: string;
-    slug: string;
-    category: string;
-    startDate: string;
-    endDate: string;
-    isPublish: boolean | string;
-    isFeatured: boolean | string;
+    name?: string;
+    slug?: string;
+    category?: string;
+    startDate?: string;
+    endDate?: string;
+    isPublish?: boolean | string;
+    isFeatured?: boolean | string;
     isOnline?: boolean | string;
-    description: string;
+    description?: string;
     location?: {
         region: string;
         coordinates: number[];
     }
-    banner: string | FileList;
+    banner?: string | FileList;
 }
 
 interface IEventForm extends IEvent {
@@ -27,6 +27,10 @@ interface IEventForm extends IEvent {
     endDate: DateValue;
     latitude: string;
     longitude: string;
+}
+
+interface IUpdateEventForm extends Omit<IEventForm, 'banner'> {
+    banner?: string | FileList;
 }
 
 export type { IEvent, IRegency, IEventForm };

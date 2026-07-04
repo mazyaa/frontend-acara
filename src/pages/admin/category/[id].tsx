@@ -4,8 +4,8 @@ import DetailCategory from "@/components/views/admin/category/DetailCategory";
 const DetailCategoryPage = () => {
   return (
     <DashboardLayout
-      title="Detail Event"
-      description="Manage Information for this event."
+      title="Detail Category"
+      description="Manage Information for this category."
       type="admin"
     >
       <DetailCategory />
