@@ -13,7 +13,6 @@ import {
 import useAddCategoryModal from "./useAddCategoryModal";
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
-import { on } from "events";
 
 interface PropTypes {
   isOpen: boolean;

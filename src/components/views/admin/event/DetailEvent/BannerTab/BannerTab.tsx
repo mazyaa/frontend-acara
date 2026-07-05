@@ -61,7 +61,7 @@ const BannerTab = (props: PropTypes) => {
             <p className="text-sm font-medium text-default-700">Current Banner</p>
             <Skeleton
               isLoaded={!!currentBanner}
-              className="aspect-square rounded-lg"
+              className="aspect-video rounded-lg"
             >
               <Image className="!relative" src={currentBanner} fill alt={name} />
             </Skeleton>

@@ -3,34 +3,50 @@ interface IRegency {
     name: string;
 }
 
-interface IEvent {
-    _id?: string;
-    name?: string;
-    slug?: string;
-    category?: string;
-    startDate?: string;
-    endDate?: string;
-    isPublish?: boolean | string;
-    isFeatured?: boolean | string;
-    isOnline?: boolean | string;
-    description?: string;
-    location?: {
-        region: string;
-        coordinates: number[];
-    }
-    banner?: string | FileList;
-}
+interface IEventForm {
+    name: string;
+    slug: string;
+    category: string;
 
-interface IEventForm extends IEvent {
-    region: string;
     startDate: DateValue;
     endDate: DateValue;
+
+    isPublish: boolean;
+    isFeatured: boolean;
+    isOnline: boolean;
+
+    description: string;
+
+    region: string;
     latitude: string;
     longitude: string;
+
+    banner: string | FileList;
 }
 
-interface IUpdateEventForm extends Omit<IEventForm, 'banner'> {
-    banner?: string | FileList;
+interface IEventResponse {
+    _id: string;
+    name: string;
+    slug: string;
+    category: string;
+
+    startDate: string;
+    endDate: string;
+
+    isPublish: boolean;
+    isFeatured: boolean;
+    isOnline: boolean;
+
+    description: string;
+
+    location: {
+        region: string;
+        coordinates: number[];
+    };
+
+    banner: string;
 }
 
-export type { IEvent, IRegency, IEventForm };
+interface IUpdateEvent extends Partial<IEventForm> {}
+
+export type { IEventForm, IEventResponse, IUpdateEvent, IRegency };

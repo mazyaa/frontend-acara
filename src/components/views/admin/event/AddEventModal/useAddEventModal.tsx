@@ -4,7 +4,7 @@ import useDebounce from "@/hooks/useDebounce";
 import useMediaHandling from "@/hooks/useMediaHandling";
 import categoryServices from "@/services/category.service";
 import eventServices from "@/services/event.services";
-import { IEvent, IEventForm } from "@/types/Event";
+import { IEventForm, IEventResponse } from "@/types/Event";
 import { toDateStandard } from "@/utils/date";
 import { DateValue } from "@heroui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -121,7 +121,7 @@ const useAddEventModal = () => {
     })
 
   // for adding new event
-  const addEvent = async (payload: IEvent) => {
+  const addEvent = async (payload: IEventForm) => {
     const response = await eventServices.addEvent(payload);
     return response;
   };
@@ -156,10 +156,10 @@ const useAddEventModal = () => {
       isFeatured: Boolean(data.isFeatured), // convert string to boolean
       isPublish: Boolean(data.isPublish),
       isOnline: Boolean(data.isOnline),
-      startDate: toDateStandard(data.startDate),
-      endDate: toDateStandard(data.endDate),
+      startDate: data.startDate ? toDateStandard(data.startDate) : undefined,
+      endDate: data.endDate ? toDateStandard(data.endDate) : undefined,
       location: {
-        region: data.region,
+        region: data.region ? data.region : "",
         coordinates: [Number(data.latitude), Number(data.longitude)],
       },
       banner: data.banner

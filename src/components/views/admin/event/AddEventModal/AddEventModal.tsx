@@ -34,7 +34,6 @@ const AddEventModal = (props: PropTypes) => {
   const {
     control,
     errors,
-    reset,
     handleSubmitForm,
     handleAddEvent,
     isPendingMutateAddEvent,
@@ -149,7 +148,6 @@ const AddEventModal = (props: PropTypes) => {
                       label="Start Date"
                       hideTimeZone
                       showMonthAndYearPickers
-                      defaultValue={now(getLocalTimeZone())}
                       isInvalid={errors.startDate !== undefined}
                       errorMessage={errors.startDate?.message}
                     />
@@ -167,7 +165,6 @@ const AddEventModal = (props: PropTypes) => {
                       label="End Date"
                       hideTimeZone
                       showMonthAndYearPickers
-                      defaultValue={now(getLocalTimeZone())}
                       isInvalid={errors.endDate !== undefined}
                       errorMessage={errors.endDate?.message}
                     />

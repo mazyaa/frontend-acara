@@ -1,5 +1,12 @@
 import { parseAbsoluteToLocal, DateValue } from "@internationalized/date";
 
+const standardTimeAndDate = (time: number) => {
+    if (time < 10) { // check if time is less than 10, if yes then add 0 in front of the time
+        return `0${time}`;
+    } else {
+        return time;
+    }
+}
 
 const toDateStandard = (date: DateValue): string => {
     const year = date.year; // Assuming the date object has a 'year' property
@@ -10,7 +17,7 @@ const toDateStandard = (date: DateValue): string => {
     const minute = "minute" in date ? date.minute : 0;
     const second = "second" in date ? date.second : 0;
 
-    const result = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+    const result = `${year}-${standardTimeAndDate(month)}-${standardTimeAndDate(day)} ${standardTimeAndDate(hour)}:${standardTimeAndDate(minute)}:${standardTimeAndDate(second)}`;
 
     return result;
 }
