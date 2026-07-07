@@ -16,14 +16,13 @@ import {
 import useInfotab from "./useInfoTab";
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
-import { IEventResponse, IEventForm } from "@/types/Event";
-import { parseDate } from "@internationalized/date";
+import { IEvent, IEventForm } from "@/types/Event";
 import { ICategory } from "@/types/Category";
 import { toInputDate } from "@/utils/date";
 
 interface PropTypes {
-  dataEvent: IEventResponse;
-  onUpdate: (data: IEventResponse) => void;
+  dataEvent: IEvent;
+  onUpdate: (data: IEvent) => void;
   name: string;
   isPendingUpdate: boolean;
   isSuccessUpdate: boolean;
@@ -60,24 +59,6 @@ const InfoTab = (props: PropTypes) => {
       dataEvent?.isFeatured ? String(dataEvent?.isFeatured) : "",
     );
     setValueUpdateInfo("description", dataEvent?.description || "");
-    setValueUpdateInfo(
-      "isOnline",
-      dataEvent?.isOnline ? String(dataEvent?.isOnline) : "",
-    );
-    setValueUpdateInfo("region", dataEvent?.location?.region || "");
-    setValueUpdateInfo(
-      "latitude",
-      dataEvent?.location?.coordinates[1]
-        ? String(dataEvent?.location?.coordinates[1])
-        : "",
-    ); // get latitude from coordinates array, which is the second element (index 1)
-    setValueUpdateInfo(
-      "longitude",
-      dataEvent?.location?.coordinates[0]
-        ? String(dataEvent?.location?.coordinates[0])
-        : "",
-    ); // get longitude from coordinates array, which is the first element (index 0)
-    setValueUpdateInfo("banner", dataEvent?.banner || "");
   }, [dataEvent]);
 
   useEffect(() => {

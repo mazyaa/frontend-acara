@@ -2,12 +2,15 @@ import { Tab, Tabs } from "@heroui/react";
 import BannerTab from "./BannerTab";
 import useDetailEvent from "./useDetailEvent";
 import InfoTab from "./InfoTab";
+import LocationTab from "./LocationTab";
 
 const DetailEvent = () => {
   const {
     dataEvent,
 
     handleUpdateEvent,
+    handleUpdateInfo,
+    handleUpdateLocation,
     isPendingMutateUpdateEvent,
     isSuccessMutateUpdateEvent,
   } = useDetailEvent();
@@ -28,13 +31,21 @@ const DetailEvent = () => {
           dataEvent={dataEvent}
           name={dataEvent?.name}
           isPendingUpdate={isPendingMutateUpdateEvent}
-          onUpdate={handleUpdateEvent}
+          onUpdate={handleUpdateInfo}
           isSuccessUpdate={isSuccessMutateUpdateEvent}
         />
       </Tab>
-      {/* <Tab key="location" title="Location">
-                Location
-            </Tab> */}
+
+      <Tab key="location" title="Location">
+        <LocationTab
+          dataEvent={dataEvent}
+          name={dataEvent?.name}
+          isPendingUpdate={isPendingMutateUpdateEvent}
+          onUpdate={handleUpdateLocation}
+          isSuccessUpdate={isSuccessMutateUpdateEvent}
+        />
+      </Tab>
+      
     </Tabs>
   );
 };

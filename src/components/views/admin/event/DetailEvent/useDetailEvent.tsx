@@ -1,6 +1,6 @@
 import { ToasterContext } from "@/context/ToasterContext";
 import eventServices from "@/services/event.services";
-import { IUpdateEvent } from "@/types/Event";
+import { IEvent, IEventForm } from "@/types/Event";
 import { toDateStandard } from "@/utils/date";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -26,7 +26,7 @@ const useDetailEvent = () => {
   });
 
   // function for updating event info
-  const updateEvent = async (payload: IUpdateEvent) => {
+  const updateEvent = async (payload: IEvent) => {
     const { data } = await eventServices.updateEvent(
         `${query.id}`,
         payload
@@ -57,7 +57,9 @@ const useDetailEvent = () => {
     },
   });
 
-  const handleUpdateEvent = (data: IUpdateEvent) => {
+  const handleUpdateEvent = (data: IEvent) => mutateUpdateEvent(data);
+
+  const handleUpdateInfo = (data: IEvent) => {
     const payload = {
       ...data,
       isFeatured: Boolean(data.isFeatured), // convert string to boolean
@@ -65,11 +67,18 @@ const useDetailEvent = () => {
       isOnline: Boolean(data.isOnline),
       startDate: data.startDate ? toDateStandard(data.startDate) : undefined,
       endDate: data.endDate ? toDateStandard(data.endDate) : undefined,
+    };
+    mutateUpdateEvent(payload);
+  }
+
+  const handleUpdateLocation = (data: IEventForm) => {
+    const payload = {
+      isOnline: Boolean(data.isOnline),
       location: {
         region: data.region ? data.region : "",
         coordinates: [Number(data.latitude), Number(data.longitude)],
       },
-      banner: data.banner
+      banner: data.banner,
     };
     mutateUpdateEvent(payload);
   }
@@ -78,6 +87,8 @@ const useDetailEvent = () => {
     dataEvent,
 
     handleUpdateEvent,
+    handleUpdateInfo,
+    handleUpdateLocation,
     isPendingMutateUpdateEvent,
     isSuccessMutateUpdateEvent,
   };

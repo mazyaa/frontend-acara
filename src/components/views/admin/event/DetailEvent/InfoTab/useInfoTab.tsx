@@ -14,11 +14,6 @@ const schemaUpdateEvent = yup.object().shape({
   isPublish: yup.string().required("Please select publish status"),
   isFeatured: yup.string().required("Please select featured"),
   description: yup.string().required("Please input description"),
-  isOnline: yup.string().required("Please select online or offline"),
-  region: yup.string().required("Please select region"),
-  latitude: yup.string().required("Pleas input latitude"),
-  longitude: yup.string().required("Pleas input longitude"),
-  banner: yup.mixed<FileList | string>().required("Please upload an banner"),
 });
 
 const useInfotab = () => {
