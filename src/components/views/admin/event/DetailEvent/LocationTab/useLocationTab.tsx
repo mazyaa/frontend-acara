@@ -26,6 +26,8 @@ const useLocationTab = () => {
     resolver: yupResolver(schemaUpdateEvent), // resolver validation by yup schema
   });
 
+
+  //search regency by name with debounce
   const debounce = useDebounce();
 
   const [searchRegency, setSearchRegency] = useState<string>("");

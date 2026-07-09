@@ -15,19 +15,20 @@ import {
 } from "@heroui/react";
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
-import { IEventForm, IRegency } from "@/types/Event";
+import { IEvent, IEventForm, IRegency } from "@/types/Event";
 import useLocationTab from "./useLocationTab";
 
 interface PropTypes {
   dataEvent: IEventForm;
   onUpdate: (data: IEventForm) => void;
-  name: string;
+  dataDefaultRegion: string;
+  isPendingDefaultRegion: boolean;
   isPendingUpdate: boolean;
   isSuccessUpdate: boolean;
 }
 
 const LocationTab = (props: PropTypes) => {
-  const { dataEvent, onUpdate, name, isPendingUpdate, isSuccessUpdate } = props;
+  const { dataEvent, onUpdate, dataDefaultRegion, isPendingDefaultRegion, isPendingUpdate, isSuccessUpdate } = props;
 
   // only for controlling form in LocationTab
   const {
@@ -91,7 +92,7 @@ const LocationTab = (props: PropTypes) => {
               Current Location
             </p>
 
-            <Skeleton isLoaded={!!dataEvent.isOnline} className="rounded-sm">
+            <Skeleton isLoaded={!!dataEvent?.isOnline} className="rounded-sm">
               <Controller
                 name="isOnline"
                 control={controlUpdateLocation} // use control for connect input with react hook form, meaning input value will be managed by react hook form
@@ -115,10 +116,11 @@ const LocationTab = (props: PropTypes) => {
             </Skeleton>
 
             <Skeleton
-              isLoaded={!!dataEvent?.location?.region}
+              isLoaded={!!dataEvent?.location?.region && !isPendingDefaultRegion}
               className="rounded-sm"
             >
-              <Controller
+              {!isPendingDefaultRegion ? (
+                <Controller
                 name="region"
                 control={controlUpdateLocation} // use control for connect input with react hook form, meaning input value will be managed by react hook form
                 render={({ field: { onChange, ...field } }) => (
@@ -131,7 +133,7 @@ const LocationTab = (props: PropTypes) => {
                         ? dataRegion.data.data
                         : []
                     } // defaultItems is coming from api response, which is the list of region data
-                    defaultInputValue={dataEvent?.location?.region}
+                    defaultInputValue={dataDefaultRegion} // defaultInputValue is coming from api response, which is the name of region
                     variant="bordered"
                     label="City"
                     onInputChange={(search) => handleSearchRegency(search)} // for searching region by name, it will call api to get region data
@@ -148,6 +150,9 @@ const LocationTab = (props: PropTypes) => {
                   </Autocomplete>
                 )}
               />
+              ): (
+                <div className="w-full h-10"></div>
+              )}
             </Skeleton>
 
             <Skeleton

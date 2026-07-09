@@ -15,6 +15,8 @@ const eventServices = {
         instance.get(`${endpoint.REGION}-search?name=${name}`),
     deleteEvent: (id: string) => 
         instance.delete(`${endpoint.EVENT}/${id}`),
+    getRegencyById: (id: string) => 
+        instance.get(`${endpoint.REGION}/${id}/regency`)
 }
 
 export default eventServices;

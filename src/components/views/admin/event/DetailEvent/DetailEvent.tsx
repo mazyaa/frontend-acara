@@ -13,6 +13,9 @@ const DetailEvent = () => {
     handleUpdateLocation,
     isPendingMutateUpdateEvent,
     isSuccessMutateUpdateEvent,
+
+    dataDefaultRegion,
+    isPendingDefaultRegion,
   } = useDetailEvent();
 
   return (
@@ -39,7 +42,8 @@ const DetailEvent = () => {
       <Tab key="location" title="Location">
         <LocationTab
           dataEvent={dataEvent}
-          name={dataEvent?.name}
+          dataDefaultRegion={dataDefaultRegion?.data?.data[0]?.name}
+          isPendingDefaultRegion={isPendingDefaultRegion}
           isPendingUpdate={isPendingMutateUpdateEvent}
           onUpdate={handleUpdateLocation}
           isSuccessUpdate={isSuccessMutateUpdateEvent}

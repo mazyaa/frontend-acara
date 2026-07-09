@@ -83,6 +83,12 @@ const useDetailEvent = () => {
     mutateUpdateEvent(payload);
   }
 
+   const { data: dataDefaultRegion, isPending: isPendingDefaultRegion } = useQuery({
+    queryKey: ["defaultRegion"], // for caching data, so if the queryKey is the same it will return the cached data, but if the queryKey is different it will fetch new data
+    queryFn: () => eventServices.getRegencyById(dataEvent?.location?.region), // fetch default region by id from the dataEvent location region
+    enabled: !!dataEvent?.location?.region,
+  });
+
   return {
     dataEvent,
 
@@ -91,6 +97,9 @@ const useDetailEvent = () => {
     handleUpdateLocation,
     isPendingMutateUpdateEvent,
     isSuccessMutateUpdateEvent,
+
+    dataDefaultRegion,
+    isPendingDefaultRegion,
   };
 };
 
