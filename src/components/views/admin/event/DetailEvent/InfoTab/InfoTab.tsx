@@ -159,6 +159,7 @@ const InfoTab = (props: PropTypes) => {
                     label="Start Date"
                     hideTimeZone
                     showMonthAndYearPickers
+                    onChange={(value) => onChange(value)}
                     isInvalid={errorsUpdateInfo.startDate !== undefined}
                     errorMessage={errorsUpdateInfo.startDate?.message}
                   />
@@ -178,6 +179,7 @@ const InfoTab = (props: PropTypes) => {
                     label="End Date"
                     hideTimeZone
                     showMonthAndYearPickers
+                    onChange={(value) => onChange(value)}
                     isInvalid={errorsUpdateInfo.endDate !== undefined}
                     errorMessage={errorsUpdateInfo.endDate?.message}
                   />
@@ -185,7 +187,7 @@ const InfoTab = (props: PropTypes) => {
               />
             </Skeleton>
 
-            <Skeleton isLoaded={!!dataEvent.isPublish} className="rounded-sm">
+            <Skeleton isLoaded={dataEvent?.isPublish !== undefined} className="rounded-sm">
               <Controller
                 name="isPublish"
                 control={controlUpdateInfo} // use control for connect input with react hook form, meaning input value will be managed by react hook form
@@ -196,6 +198,7 @@ const InfoTab = (props: PropTypes) => {
                       defaultSelectedKeys={[dataEvent.isPublish ? "true" : "false"]}
                       variant="bordered"
                       label="Status"
+                      onChange={(value) => onChange(value)} // onChange is coming from react hook form for setting value to form
                       isInvalid={errorsUpdateInfo.isPublish !== undefined}
                       errorMessage={errorsUpdateInfo.isPublish?.message}
                     >
@@ -206,7 +209,7 @@ const InfoTab = (props: PropTypes) => {
               />
             </Skeleton>
             
-            <Skeleton isLoaded={!!dataEvent.isFeatured} className="rounded-sm">
+            <Skeleton isLoaded={dataEvent.isFeatured !== undefined} className="rounded-sm">
               <Controller
                 name="isFeatured"
                 control={controlUpdateInfo} // use control for connect input with react hook form, meaning input value will be managed by react hook form
@@ -217,6 +220,7 @@ const InfoTab = (props: PropTypes) => {
                       defaultSelectedKeys={[dataEvent.isFeatured ? "true" : "false"]}
                       variant="bordered"
                       label="Featured"
+                      onChange={(value) => onChange(value)} // onChange is coming from react hook form for setting value to form
                       isInvalid={errorsUpdateInfo.isFeatured !== undefined}
                       errorMessage={errorsUpdateInfo.isFeatured?.message}
                     >

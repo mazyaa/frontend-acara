@@ -5,17 +5,15 @@ import {
   Card,
   CardBody,
   CardHeader,
-  DatePicker,
   Input,
   Select,
   SelectItem,
   Skeleton,
   Spinner,
-  Textarea,
 } from "@heroui/react";
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
-import { IEvent, IEventForm, IRegency } from "@/types/Event";
+import { IEventForm, IRegency } from "@/types/Event";
 import useLocationTab from "./useLocationTab";
 
 interface PropTypes {
@@ -47,6 +45,7 @@ const LocationTab = (props: PropTypes) => {
 
   useEffect(() => {
     if (dataEvent) {
+      setValueUpdateLocation("address", dataEvent?.location?.address || "");
       setValueUpdateLocation(
         "isOnline",
         dataEvent?.isOnline ? String(dataEvent?.isOnline) : "",
@@ -92,19 +91,40 @@ const LocationTab = (props: PropTypes) => {
               Current Location
             </p>
 
-            <Skeleton isLoaded={!!dataEvent?.isOnline} className="rounded-sm">
+              <Skeleton
+              isLoaded={!!dataEvent.location?.address}
+              className="rounded-sm"
+            >
+              <Controller
+                name="address"
+                control={controlUpdateLocation} // use control for connect input with react hook form, meaning input value will be managed by react hook form
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    className="rounded"
+                    variant="bordered"
+                    label="Address"
+                    isInvalid={errorsUpdateLocation.address !== undefined}
+                    errorMessage={errorsUpdateLocation.address?.message}
+                  />
+                )}
+              />
+            </Skeleton>
+
+            <Skeleton isLoaded={dataEvent?.isOnline !== undefined} className="rounded-sm">
               <Controller
                 name="isOnline"
                 control={controlUpdateLocation} // use control for connect input with react hook form, meaning input value will be managed by react hook form
-                render={({ field: { onChange, ...field } }) => (
+                render={({ field: { onChange, ...field } }) => ( // use onChange because select option is not a normal input, so we need to use onChange to set the value to react hook form
                   <Select
                     {...field}
                     className="rounded"
                     defaultSelectedKeys={[
-                      dataEvent.isOnline ? "true" : "false",
+                      dataEvent?.isOnline ? "true" : "false",
                     ]}
                     variant="bordered"
                     label="Online / Offline"
+                    onChange={(value) => onChange(value)} // onChange is coming from react hook form for setting value to form
                     isInvalid={errorsUpdateLocation.isOnline !== undefined}
                     errorMessage={errorsUpdateLocation.isOnline?.message}
                   >

@@ -6,8 +6,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
-
-
 const useDetailEvent = () => {
   const { query, isReady } = useRouter(); // destructure query and isReady from useRouter for handling dynamic routes
   const { setToaster } = useContext(ToasterContext);
@@ -62,9 +60,6 @@ const useDetailEvent = () => {
   const handleUpdateInfo = (data: IEvent) => {
     const payload = {
       ...data,
-      isFeatured: Boolean(data.isFeatured), // convert string to boolean
-      isPublish: Boolean(data.isPublish),
-      isOnline: Boolean(data.isOnline),
       startDate: data.startDate ? toDateStandard(data.startDate) : undefined,
       endDate: data.endDate ? toDateStandard(data.endDate) : undefined,
     };
@@ -75,7 +70,8 @@ const useDetailEvent = () => {
     const payload = {
       isOnline: Boolean(data.isOnline),
       location: {
-        region: data.region ? data.region : "",
+        address: `${data.address}`,
+        region: data.region ? `${data.region}` : "",
         coordinates: [Number(data.latitude), Number(data.longitude)],
       },
       banner: data.banner,

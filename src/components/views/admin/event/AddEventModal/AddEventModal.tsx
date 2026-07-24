@@ -268,6 +268,21 @@ const AddEventModal = (props: PropTypes) => {
                 />
 
                 <Controller
+                  name="address"
+                  control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      className="rounded"
+                      variant="bordered"
+                      label="Address"
+                      isInvalid={errors.address !== undefined}
+                      errorMessage={errors.address?.message}
+                    />
+                  )}
+                />
+
+                <Controller
                   name="latitude"
                   control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
                   render={({ field }) => (
