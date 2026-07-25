@@ -10,8 +10,8 @@ const useDetailEvent = () => {
   const { query, isReady } = useRouter(); // destructure query and isReady from useRouter for handling dynamic routes
   const { setToaster } = useContext(ToasterContext);
 
-  const getEventById = async (id: string) => {
-    const { data } = await eventServices.getEventById(id);
+  const getEventById = async () => {
+    const { data } = await eventServices.getEventById(`${query.id}`);
 
     return data.data;
   };
@@ -19,7 +19,7 @@ const useDetailEvent = () => {
   const { data: dataEvent, refetch: refetchEvent } = useQuery({
     // use useQuery to fetch Event details
     queryKey: ["event"], // unique key for the query
-    queryFn: () => getEventById(`${query.id}`), // fetch event by id from the query parameters
+    queryFn: getEventById, // fetch event by id from the query parameters
     enabled: isReady, // ensure the query runs only when the router is ready
   });
 

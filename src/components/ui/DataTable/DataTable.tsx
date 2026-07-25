@@ -29,6 +29,8 @@ interface PropTypes {
     item: Record<string, unknown>,
     columnKey: Key,
   ) => React.ReactNode;
+  showLimit?: boolean;
+  showSearch?: boolean;
   totalPages: number;
 }
 
@@ -41,6 +43,8 @@ const DataTable = (props: PropTypes) => {
     isLoading,
     onClickButtonTopContent,
     renderCell,
+    showLimit = true,
+    showSearch = true,
     totalPages,
   } = props;
 
@@ -58,16 +62,17 @@ const DataTable = (props: PropTypes) => {
     // use useMemo for only re-render when dependencies change if dependencies no change, no re-render
     return (
       <div className="justify-beetween flex flex-col-reverse items-start gap-y-4 lg:flex-row lg:items-center lg:justify-between">
-
         {/* Search Input */}
-        <Input
-          isClearable
-          className="w-full sm:max-w-[24%]"
-          startContent={<CiSearch />}
-          placeholder="Search by Name"
-          onClear={handleClearSearch}
-          onChange={handleSearch}
-        />
+        {showSearch && (
+          <Input
+            isClearable
+            className="w-full sm:max-w-[24%]"
+            startContent={<CiSearch />}
+            placeholder="Search by Name"
+            onClear={handleClearSearch}
+            onChange={handleSearch}
+          />
+        )}
         {/* button top content */}
         {buttonTopContenLabel && (
           <Button color="danger" onPress={onClickButtonTopContent}>
@@ -76,49 +81,59 @@ const DataTable = (props: PropTypes) => {
         )}
       </div>
     );
-  }, 
-  [
+  }, [
     buttonTopContenLabel,
     handleSearch,
     handleClearSearch,
     onClickButtonTopContent,
-  ]); {/* dependencies */}
+  ]);
+  {
+    /* dependencies */
+  }
 
   const BottomContent = useMemo(() => {
     return (
       <div className="item-center flex justify-center px-2 py-2 lg:justify-between">
         {/* Select limit content view */}
-        <Select
-          className="hidden max-w-36 lg:block"
-          size="md"
-          selectedKeys={[`${currentLimit}`]} // force as array of string
-          selectionMode="single"
-          onChange={handleChangeLimit}
-          startContent={<p className="text-small">Show:</p>}
-          disallowEmptySelection
-        >
-          {LIMIT_LISTS.map((item) => (
-            <SelectItem key={item.value} className="border-b-2">
-              {item.label}
-            </SelectItem>
-          ))}
-        </Select>
+        {showLimit && (
+          <Select
+            className="hidden max-w-36 lg:block"
+            size="md"
+            selectedKeys={[`${currentLimit}`]} // force as array of string
+            selectionMode="single"
+            onChange={handleChangeLimit}
+            startContent={<p className="text-small">Show:</p>}
+            disallowEmptySelection
+          >
+            {LIMIT_LISTS.map((item) => (
+              <SelectItem key={item.value} className="border-b-2">
+                {item.label}
+              </SelectItem>
+            ))}
+          </Select>
+        )}
 
         {/* Pagination content view */}
         {totalPages > 1 && (
           <Pagination
-          isCompact
-          showControls
-          color="danger"
-          page={Number(currentPage) || 1}
-          total={totalPages}
-          onChange={handleChangePage}
-          loop // for looping pagination
-        />
-        ) }
+            isCompact
+            showControls
+            color="danger"
+            page={Number(currentPage) || 1}
+            total={totalPages}
+            onChange={handleChangePage}
+            loop // for looping pagination
+          />
+        )}
       </div>
     );
-  }, [currentLimit, currentPage, handleChangeLimit, handleChangePage, totalPages]);
+  }, [
+    currentLimit,
+    currentPage,
+    handleChangeLimit,
+    handleChangePage,
+    totalPages,
+  ]);
 
   return (
     <Table
@@ -126,10 +141,10 @@ const DataTable = (props: PropTypes) => {
       topContentPlacement="outside"
       bottomContent={BottomContent}
       bottomContentPlacement="outside"
-      classNames={{ 
+      classNames={{
         base: "max-w-full",
-        wrapper: cn({"overflow-x-hidden": isLoading}),
-       }}
+        wrapper: cn({ "overflow-x-hidden": isLoading }),
+      }}
     >
       {/* Table Header */}
       <TableHeader columns={columns}>
@@ -147,7 +162,7 @@ const DataTable = (props: PropTypes) => {
         isLoading={isLoading}
         loadingContent={
           <div className="flex h-full w-full items-center justify-center bg-foreground-300/70 backdrop-blur-sm">
-            <Spinner color="danger"/>
+            <Spinner color="danger" />
           </div>
         }
       >

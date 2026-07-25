@@ -3,6 +3,7 @@ import BannerTab from "./BannerTab";
 import useDetailEvent from "./useDetailEvent";
 import InfoTab from "./InfoTab";
 import LocationTab from "./LocationTab";
+import TicketTab from "./TicketTab";
 
 const DetailEvent = () => {
   const {
@@ -48,6 +49,10 @@ const DetailEvent = () => {
           onUpdate={handleUpdateLocation}
           isSuccessUpdate={isSuccessMutateUpdateEvent}
         />
+      </Tab>
+
+      <Tab key="ticket" title="Ticket">
+        <TicketTab />
       </Tab>
       
     </Tabs>
