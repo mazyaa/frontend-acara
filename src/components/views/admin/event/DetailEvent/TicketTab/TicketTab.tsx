@@ -8,9 +8,10 @@ import {
   CardHeader,
   useDisclosure,
 } from "@heroui/react";
-import { Key, ReactNode, useCallback } from "react";
+import { Fragment, Key, ReactNode, useCallback } from "react";
 import { COLUMN_LIST_TICKET } from "./ticket.constants";
 import useTicketTab from "./useTicktetTab";
+import AddTicketModal from "./AddTicketModal/AddTicketModal";
 
 const TicketTab = () => {
   const { dataTicket, refetchTicket, isPendingTicket, isRefetchingTicket } =
@@ -48,30 +49,36 @@ const TicketTab = () => {
     [],
   );
   return (
-    <Card className="w-full p-4">
-      <CardHeader className="items-center justify-between">
-        <div className="flex flex-col">
-          <h1 className="text-xl font-bold">Event Ticket</h1>
-          <p className="text-sm text-default-400">
-            Manage Ticket of this event
-          </p>
-        </div>
-        <Button color="danger">Add New Ticket</Button>
-      </CardHeader>
+    <Fragment>
+      <Card className="w-full p-4">
+        <CardHeader className="items-center justify-between">
+          <div className="flex flex-col">
+            <h1 className="text-xl font-bold">Event Ticket</h1>
+            <p className="text-sm text-default-400">
+              Manage Ticket of this event
+            </p>
+          </div>
+          <Button color="danger" onPress={() => addTicketModal.onOpen()}>
+            Add New Ticket
+          </Button>
+        </CardHeader>
 
-      <CardBody>
-        <DataTable
-          columns={COLUMN_LIST_TICKET}
-          data={dataTicket || []}
-          emptyContent="No Ticket found"
-          isLoading={isPendingTicket || isRefetchingTicket}
-          renderCell={renderCell}
-          showSearch={false}
-          showLimit={false}
-          totalPages={1}
-        />
-      </CardBody>
-    </Card>
+        <CardBody>
+          <DataTable
+            columns={COLUMN_LIST_TICKET}
+            data={dataTicket || []}
+            emptyContent="No Ticket found"
+            isLoading={isPendingTicket || isRefetchingTicket}
+            renderCell={renderCell}
+            showSearch={false}
+            showLimit={false}
+            totalPages={1}
+          />
+
+          <AddTicketModal {...addTicketModal} refetchTicket={refetchTicket} />
+        </CardBody>
+      </Card>
+    </Fragment>
   );
 };
 

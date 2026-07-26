@@ -10,47 +10,38 @@ import {
   Spinner,
   Textarea,
 } from "@heroui/react";
-import useAddCategoryModal from "./useAddCategoryModal";
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
+import useAddTicketModal from "./useAddTicketModal";
 
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
   onOpenChange: () => void;
-  refetchCategory: () => void;
+  refetchTicket: () => void;
 }
 
-const AddCategoryModal = (props: PropTypes) => {
-  const { isOpen, onClose, onOpenChange, refetchCategory } = props;
+const AddTicketModal = (props: PropTypes) => {
+  const { isOpen, onClose, onOpenChange, refetchTicket } = props;
+
   const {
     control,
     errors,
     reset,
     handleSubmitForm,
-    handleAddCategory,
-    isPendingMutateAddCategory,
-    isSuccessMutateAddCategory,
-
-    preview,
-    handleUploadIcon,
-    isPendingMutateUploadFile,
-    handleDeleteIcon,
-    isPendingMutateDeleteFile,
-    handelOnCLose,
-  } = useAddCategoryModal();
+    handleAddTicket,
+    isPendingMutateAddTicket,
+    isSuccessMutateAddTicket,
+  } = useAddTicketModal();
 
   useEffect(() => {
-    if (isSuccessMutateAddCategory) {
+    if (isSuccessMutateAddTicket) {
       onClose();
-      refetchCategory();
+      refetchTicket();
     }
-  }, [isSuccessMutateAddCategory]);
+  }, [isSuccessMutateAddTicket]);
 
-  const disabledSubmit =
-    isPendingMutateAddCategory ||
-    isPendingMutateUploadFile ||
-    isPendingMutateDeleteFile;
+  const disabledSubmit = isPendingMutateAddTicket;
 
   return (
     <Modal
@@ -58,12 +49,15 @@ const AddCategoryModal = (props: PropTypes) => {
       isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
-      onClose={() => handelOnCLose(onClose)}
+      onClose={() => {
+        reset();
+        onClose();
+      }}
     >
-      <form onSubmit={handleSubmitForm(handleAddCategory)}>
+      <form onSubmit={handleSubmitForm(handleAddTicket)}>
         <ModalContent className="m-4">
           <ModalHeader>
-            <h3>Add Category</h3>
+            <h3>Add Ticket</h3>
           </ModalHeader>
           <ModalBody>
             <div className="flex flex-col gap-4">
@@ -76,12 +70,41 @@ const AddCategoryModal = (props: PropTypes) => {
                   render={({ field }) => (
                     <Input
                       {...field}
-                      autoFocus
                       className="rounded"
                       variant="bordered"
                       label="Name"
                       isInvalid={errors.name !== undefined}
                       errorMessage={errors.name?.message}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="price"
+                  control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      className="rounded"
+                      variant="bordered"
+                      label="Price"
+                      isInvalid={errors.price !== undefined}
+                      errorMessage={errors.price?.message}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="quantity"
+                  control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      className="rounded"
+                      variant="bordered"
+                      label="Quantity"
+                      isInvalid={errors.quantity !== undefined}
+                      errorMessage={errors.quantity?.message}
                     />
                   )}
                 />
@@ -101,27 +124,6 @@ const AddCategoryModal = (props: PropTypes) => {
                   )}
                 />
               </div>
-
-              <div className="flex flex-col gap-3">
-                <Controller
-                  name="icon"
-                  control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
-                  render={({ field: { onChange, value, ...field } }) => (
-                    <InputFile
-                      {...field} // inject some propperties like onChange, value, name, ref from react hook form to Input component because by default some properties like onChange and value are not connected to react hook form
-                      onDelete={() => handleDeleteIcon(onChange)} // onChange is coming from react hook form for setting value to form
-                      onUpload={(files) => handleUploadIcon(files, onChange)} // params files is coming from handleOnUpload in InputFile component, onChange is coming from react hook form for setting value to form
-                      isUploading={isPendingMutateUploadFile}
-                      isDeleting={isPendingMutateDeleteFile}
-                      isInvalid={errors.icon !== undefined} // show input error state if have error
-                      errorMessage={errors.icon?.message}
-                      preview={typeof preview === "string" ? preview : ""}
-                      label={<p className="my-2 text-sm font-bold">Icon</p>}
-                      isDropable
-                    />
-                  )}
-                />
-              </div>
             </div>
           </ModalBody>
           <ModalFooter>
@@ -129,7 +131,10 @@ const AddCategoryModal = (props: PropTypes) => {
               <Button
                 className="font-medium text-danger-500"
                 variant="flat"
-                onPress={() => handelOnCLose(onClose)}
+                onPress={() => {
+                  reset();
+                  onClose();
+                }}
                 disabled={disabledSubmit}
               >
                 Cancel
@@ -138,12 +143,12 @@ const AddCategoryModal = (props: PropTypes) => {
                 className="font-medium text-white"
                 color="danger"
                 type="submit"
-                disabled={disabledSubmit}
+                disabled={isPendingMutateAddTicket}
               >
-                {isPendingMutateAddCategory ? (
+                {isPendingMutateAddTicket ? (
                   <Spinner size="sm" color="white" />
                 ) : (
-                  "Create Category"
+                  "Create Ticket"
                 )}
               </Button>
             </div>
@@ -154,4 +159,4 @@ const AddCategoryModal = (props: PropTypes) => {
   );
 };
 
-export default AddCategoryModal;
+export default AddTicketModal;

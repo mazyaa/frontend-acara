@@ -333,33 +333,32 @@ const AddEventModal = (props: PropTypes) => {
                   )}
                 />
               </div>
-
-              <ModalFooter>
-                <div className="flex flex-row justify-end gap-3">
-                  <Button
-                    className="font-medium text-danger-500"
-                    variant="flat"
-                    onPress={() => handelOnCLose(onClose)}
-                    disabled={disabledSubmit}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className="font-medium text-white"
-                    color="danger"
-                    type="submit"
-                    disabled={disabledSubmit}
-                  >
-                    {isPendingMutateAddEvent ? (
-                      <Spinner size="sm" color="white" />
-                    ) : (
-                      "Create Event"
-                    )}
-                  </Button>
-                </div>
-              </ModalFooter>
             </div>
           </ModalBody>
+          <ModalFooter>
+            <div className="flex flex-row justify-end gap-3">
+              <Button
+                className="font-medium text-danger-500"
+                variant="flat"
+                onPress={() => handelOnCLose(onClose)}
+                disabled={disabledSubmit}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="font-medium text-white"
+                color="danger"
+                type="submit"
+                disabled={disabledSubmit}
+              >
+                {isPendingMutateAddEvent ? (
+                  <Spinner size="sm" color="white" />
+                ) : (
+                  "Create Event"
+                )}
+              </Button>
+            </div>
+          </ModalFooter>
         </ModalContent>
       </form>
     </Modal>
