@@ -8,10 +8,12 @@ import {
   CardHeader,
   useDisclosure,
 } from "@heroui/react";
-import { Fragment, Key, ReactNode, useCallback } from "react";
+import { Fragment, Key, ReactNode, useCallback, useState } from "react";
 import { COLUMN_LIST_TICKET } from "./ticket.constants";
 import useTicketTab from "./useTicktetTab";
 import AddTicketModal from "./AddTicketModal/AddTicketModal";
+import { ITicket } from "@/types/Ticket";
+import DeleteTicketModal from "./DeleteTicketModal";
 
 const TicketTab = () => {
   const { dataTicket, refetchTicket, isPendingTicket, isRefetchingTicket } =
@@ -19,6 +21,8 @@ const TicketTab = () => {
   const addTicketModal = useDisclosure(); // use for controlling modal open close
   const deleteTicketModal = useDisclosure();
   const updateTicketModal = useDisclosure();
+
+  const [selectedDataTicket, setSelectedDataTicket] = useState<ITicket | null>(null);
 
   const renderCell = useCallback(
     (ticket: Record<string, unknown>, columnKey: Key) => {
@@ -35,6 +39,7 @@ const TicketTab = () => {
                 updateTicketModal.onOpen();
               }}
               onPressDeleteButton={() => {
+                setSelectedDataTicket(ticket as ITicket);
                 deleteTicketModal.onOpen();
               }}
               detailNameDropdown="Update Ticket"
@@ -76,6 +81,12 @@ const TicketTab = () => {
           />
 
           <AddTicketModal {...addTicketModal} refetchTicket={refetchTicket} />
+          <DeleteTicketModal 
+            {...deleteTicketModal}
+            refetchTickets={refetchTicket}
+            selectedDataTicket={selectedDataTicket}
+            setSelectedDataTicket={setSelectedDataTicket}
+          />
         </CardBody>
       </Card>
     </Fragment>

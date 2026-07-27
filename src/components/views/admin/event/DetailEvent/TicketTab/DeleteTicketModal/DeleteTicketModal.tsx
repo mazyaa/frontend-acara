@@ -8,38 +8,39 @@ import {
   Spinner,
 } from "@heroui/react";
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { useDeleteEventModal } from "./useDeleteEventModal";
+import { useDeleteTicketModal } from "./useDeleteTicketModal";
+import { ITicket } from "@/types/Ticket";
 
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
   onOpenChange: () => void;
-  refetchEvents: () => void;
-  selectedId: string;
-  setSelectedId: Dispatch<SetStateAction<string>>; // dispatch works for setState function (React useState)
+  refetchTickets: () => void;
+  selectedDataTicket: ITicket | null;
+  setSelectedDataTicket: Dispatch<SetStateAction<ITicket | null>>; // dispatch works for setState function (React useState)
 }
 
-export const DeleteEventModal = (props: PropTypes) => {
+export const DeleteTicketModal = (props: PropTypes) => {
   const {
     isOpen,
     onClose,
     onOpenChange,
-    refetchEvents,
-    selectedId,
-    setSelectedId,
+    refetchTickets,
+    selectedDataTicket,
+    setSelectedDataTicket,
   } = props;
   const {
-    mutateDeleteEvent,
-    isPendingMutateDeleteEvent,
-    isSuccessDeleteEvent,
-  } = useDeleteEventModal();
+    mutateDeleteTicket,
+    isPendingMutateDeleteTicket,
+    isSuccessDeleteTicket,
+  } = useDeleteTicketModal();
 
   useEffect(() => {
-    if (isSuccessDeleteEvent) {
-      refetchEvents();
+    if (isSuccessDeleteTicket) {
+      refetchTickets();
       onClose();
     }
-  }, [isSuccessDeleteEvent]); // run useEffect when isSuccessDeleteEvent changes
+  }, [isSuccessDeleteTicket]); // run useEffect when isSuccessDeleteTicket changes
 
   return (
     <Modal
@@ -50,12 +51,12 @@ export const DeleteEventModal = (props: PropTypes) => {
     >
       <ModalContent>
         <ModalHeader>
-          <p className="font-semibold">Delete Event</p>
+          <p className="font-semibold">Delete Ticket</p>
         </ModalHeader>
         <ModalBody>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-3">
-              <p>Are you sure want to delete this Event?</p>
+              <p>Are you sure want to delete this Ticket?</p>
             </div>
           </div>
         </ModalBody>
@@ -66,9 +67,9 @@ export const DeleteEventModal = (props: PropTypes) => {
               variant="flat"
               onPress={() => {
                 onClose();
-                setSelectedId("");
+                setSelectedDataTicket(null); // reset selectedDataTicket to null when modal is closed
               }}
-              disabled={isPendingMutateDeleteEvent}
+              disabled={isPendingMutateDeleteTicket}
             >
               Cancel
             </Button>
@@ -76,13 +77,15 @@ export const DeleteEventModal = (props: PropTypes) => {
               className="font-normal text-white"
               color="danger"
               type="submit"
-              onPress={() => mutateDeleteEvent(selectedId)}
-              disabled={isPendingMutateDeleteEvent}
+              onPress={() =>
+                mutateDeleteTicket(selectedDataTicket?._id as string)
+              }
+              disabled={isPendingMutateDeleteTicket}
             >
-              {isPendingMutateDeleteEvent ? (
+              {isPendingMutateDeleteTicket ? (
                 <Spinner size="sm" color="white" />
               ) : (
-                "Delete Event"
+                "Delete Ticket"
               )}
             </Button>
           </div>
@@ -92,4 +95,4 @@ export const DeleteEventModal = (props: PropTypes) => {
   );
 };
 
-export default DeleteEventModal;
+export default DeleteTicketModal;

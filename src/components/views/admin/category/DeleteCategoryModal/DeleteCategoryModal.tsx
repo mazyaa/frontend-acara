@@ -57,37 +57,36 @@ export const DeleteCategoryModal = (props: PropTypes) => {
             <div className="flex flex-col gap-3">
               <p>Are you sure want to delete this category?</p>
             </div>
-
-            <ModalFooter>
-              <div className="flex flex-row justify-end gap-3">
-                <Button
-                  className="font-medium text-danger-500"
-                  variant="flat"
-                    onPress={() => {
-                      onClose();
-                      setSelectedId("");
-                    }}
-                    disabled={isPendingMutateDeleteCategory}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  className="font-normal text-white"
-                  color="danger"
-                  type="submit"
-                  onPress={() => mutateDeleteCategory(selectedId)}
-                  disabled={isPendingMutateDeleteCategory}
-                >
-                  {isPendingMutateDeleteCategory ? (
-                    <Spinner size="sm" color="white" />
-                  ) : (
-                    "Delete Category"
-                  )}
-                </Button>
-              </div>
-            </ModalFooter>
           </div>
         </ModalBody>
+        <ModalFooter>
+          <div className="flex flex-row justify-end gap-3">
+            <Button
+              className="font-medium text-danger-500"
+              variant="flat"
+              onPress={() => {
+                onClose();
+                setSelectedId("");
+              }}
+              disabled={isPendingMutateDeleteCategory}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="font-normal text-white"
+              color="danger"
+              type="submit"
+              onPress={() => mutateDeleteCategory(selectedId)}
+              disabled={isPendingMutateDeleteCategory}
+            >
+              {isPendingMutateDeleteCategory ? (
+                <Spinner size="sm" color="white" />
+              ) : (
+                "Delete Category"
+              )}
+            </Button>
+          </div>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );
