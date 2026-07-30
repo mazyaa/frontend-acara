@@ -31,6 +31,7 @@ interface PropTypes {
   ) => React.ReactNode;
   showLimit?: boolean;
   showSearch?: boolean;
+  placeholderSearch?: string;
   totalPages: number;
 }
 
@@ -45,6 +46,7 @@ const DataTable = (props: PropTypes) => {
     renderCell,
     showLimit = true,
     showSearch = true,
+    placeholderSearch = "Search by Name",
     totalPages,
   } = props;
 
@@ -68,7 +70,7 @@ const DataTable = (props: PropTypes) => {
             isClearable
             className="w-full sm:max-w-[24%]"
             startContent={<CiSearch />}
-            placeholder="Search by Name"
+            placeholder={placeholderSearch}
             onClear={handleClearSearch}
             onChange={handleSearch}
           />
