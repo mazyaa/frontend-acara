@@ -1,6 +1,8 @@
 interface IBanner {
   _id?: string;
   title?: string;
-  image?: string;
-  isShow?: boolean;
+  image?: string | FileList;
+  isShow?: boolean | string;
 };
+
+export type { IBanner };

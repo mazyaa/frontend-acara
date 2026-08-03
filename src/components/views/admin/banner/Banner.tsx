@@ -1,5 +1,6 @@
 import DataTable from "@/components/ui/DataTable";
 import {
+  Chip,
   useDisclosure,
 } from "@heroui/react";
 import Image from "next/image";
@@ -9,6 +10,7 @@ import useChangeUrl from "@/hooks/useChangeUrl";
 import DropdownActions from "@/components/commons/DropdownActions";
 import useBanner from "./useBanner";
 import { COLUMN_LIST_BANNER } from "./Banner.constants";
+import AddBannerModal from "./AddBannerModal/AddBannerModal";
 
 const Banner = () => {
   const { push, isReady, query } = useRouter();
@@ -16,7 +18,7 @@ const Banner = () => {
     dataBanner,
         isLoadingBanner,
         isRefetchingBanner,
-        // refetchBanner,
+        refetchBanners,
         // selectedId,
         setSelectedId,
   } = useBanner();
@@ -41,13 +43,13 @@ const Banner = () => {
       switch (columnKey) {
         case "image":
           return (
-            <Image src={`${cellValue}`} alt="icon" width={300} height={200} />
+            <Image src={`${cellValue}`} alt="icon" width={300} height={200} className="rounded-lg" />
           );
         case "isShow":
           return (
-            <span className={`border-1 rounded-xl bg-default px-2 py-1 text-xs ${cellValue ? "text-blue-800" : "text-red-800"}`}>
-              {cellValue ? "Published" : "Not Published"}
-            </span>
+            <Chip variant="flat" color={cellValue === true ? "primary" : "danger"}>
+              {cellValue === true ? "Published" : "Not Published"}
+            </Chip>
           )
         case "actions":
           return (
@@ -86,10 +88,12 @@ const Banner = () => {
         totalPages={dataBanner ? dataBanner.pagination.totalPages : 1} // default 1 if no data
       />
       )}
-      {/* <AddBannerModal
+       <AddBannerModal
       {...addBannerModal}
-      refetchBanner={refetchBanner}
+      refetchBanners={refetchBanners}
       />
+
+      {/*
       <DeleteBannerModal
       {...deleteBannerModal}
       selectedId={selectedId}

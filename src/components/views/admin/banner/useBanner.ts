@@ -28,7 +28,7 @@ const useBanner = () => {
         data: dataBanner,
         isLoading: isLoadingBanner, 
         isRefetching: isRefetchingBanner, 
-        refetch: refetchBanner ,
+        refetch: refetchBanners,
     } = useQuery({
         queryKey: ['Banners', currentPage, currentLimit, currentSearch], // for caching data, so if the queryKey is the same it will return the cached data, but if the queryKey is different it will fetch new data
         queryFn: getBanners, // for fetching data, but must be return a promise
@@ -40,7 +40,7 @@ const useBanner = () => {
         dataBanner,
         isLoadingBanner,
         isRefetchingBanner,
-        refetchBanner,
+        refetchBanners,
         selectedId,
         setSelectedId,
     }
