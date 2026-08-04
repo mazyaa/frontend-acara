@@ -11,6 +11,7 @@ import DropdownActions from "@/components/commons/DropdownActions";
 import useBanner from "./useBanner";
 import { COLUMN_LIST_BANNER } from "./Banner.constants";
 import AddBannerModal from "./AddBannerModal/AddBannerModal";
+import DeleteBannerModal from "./DeleteBannerModal";
 
 const Banner = () => {
   const { push, isReady, query } = useRouter();
@@ -19,7 +20,7 @@ const Banner = () => {
         isLoadingBanner,
         isRefetchingBanner,
         refetchBanners,
-        // selectedId,
+        selectedId,
         setSelectedId,
   } = useBanner();
 
@@ -93,13 +94,13 @@ const Banner = () => {
       refetchBanners={refetchBanners}
       />
 
-      {/*
+      
       <DeleteBannerModal
       {...deleteBannerModal}
       selectedId={selectedId}
       setSelectedId={setSelectedId}
-      refetchBanner={refetchBanner}
-      /> */}
+      refetchBanner={refetchBanners}
+      />
     </section>
   );
 };
