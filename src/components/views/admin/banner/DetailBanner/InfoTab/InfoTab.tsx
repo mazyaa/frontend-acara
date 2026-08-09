@@ -79,7 +79,7 @@ const InfoTab = (props: PropTypes) => {
                     {...field}
                     className="rounded"
                     variant="bordered"
-                    label="Name"
+                    label="Title"
                     isInvalid={errorsUpdateInfo.title !== undefined}
                     errorMessage={errorsUpdateInfo.title?.message}
                   />
@@ -101,6 +101,7 @@ const InfoTab = (props: PropTypes) => {
                       className="rounded"
                       variant="bordered"
                       label="Status"
+                      defaultSelectedKeys={[dataBanner?.isShow ? "true" : "false"]} // set default value for select
                       isInvalid={errorsUpdateInfo.isShow !== undefined}
                       errorMessage={errorsUpdateInfo.isShow?.message}
                     >

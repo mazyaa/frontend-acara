@@ -63,7 +63,7 @@ const ImageTab = (props: PropTypes) => {
               isLoaded={!!currentImage}
               className="h-32 rounded-lg"
             >
-              <Image className="!relative rounded-lg" src={currentImage} fill alt={name} />
+              <Image className="rounded-lg" src={currentImage} fill alt={name} />
             </Skeleton>
 
             <Controller

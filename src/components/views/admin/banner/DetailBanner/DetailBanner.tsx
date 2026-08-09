@@ -17,7 +17,7 @@ const DetailBanner = () => {
     <Tabs aria-label="Options">
       <Tab key="cover" title="Cover">
         <ImageTab
-          currentImage={dataBanner?.icon}
+          currentImage={dataBanner?.image}
           name={dataBanner?.name}
           isPendingUpdate={isPendingMutateUpdateBanner}
           onUpdate={handleUpdateBanner}
