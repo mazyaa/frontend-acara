@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import useAddEventModal from "./useAddEventModal";
 import { ICategory } from "@/types/Category";
 import { IRegency } from "@/types/Event";
+import { getLocalTimeZone, now } from "@internationalized/date";
 
 interface PropTypes {
   isOpen: boolean;
@@ -44,6 +45,7 @@ const AddEventModal = (props: PropTypes) => {
     handleDeleteBanner,
     isPendingMutateDeleteFile,
     handelOnCLose,
+    setValue,
 
     dataCategory,
     dataRegion,
@@ -62,6 +64,11 @@ const AddEventModal = (props: PropTypes) => {
     isPendingMutateAddEvent ||
     isPendingMutateUploadFile ||
     isPendingMutateDeleteFile;
+
+  useEffect(() => {
+    setValue("startDate", now(getLocalTimeZone()));
+    setValue("endDate", now(getLocalTimeZone()));
+  }, [onOpenChange]);
 
   return (
     <Modal
@@ -206,24 +213,6 @@ const AddEventModal = (props: PropTypes) => {
                   )}
                 />
 
-                <Controller
-                  name="isOnline"
-                  control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      className="rounded"
-                      variant="bordered"
-                      label="Online or Offline"
-                      isInvalid={errors.isOnline !== undefined}
-                      errorMessage={errors.isOnline?.message}
-                    >
-                      <SelectItem key="true">Online</SelectItem>
-                      <SelectItem key="false">Offline</SelectItem>
-                    </Select>
-                  )}
-                />
-
                 <Controller // use Controller for connect custom input component with react hook form and inject some propertie like onChange, value, name, ref to input component
                   name="description" // shout use name propeerty because it will be used as key in form data
                   control={control} // an property from Controller for connect input with react hook form, meaning input value will be managed by react hook form
@@ -242,6 +231,24 @@ const AddEventModal = (props: PropTypes) => {
 
               <div className="flex flex-col gap-3">
                 <p className="text-sm font-bold">Location</p>
+                <Controller
+                  name="isOnline"
+                  control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      className="rounded"
+                      variant="bordered"
+                      label="Online or Offline"
+                      isInvalid={errors.isOnline !== undefined}
+                      errorMessage={errors.isOnline?.message}
+                    >
+                      <SelectItem key="true">Online</SelectItem>
+                      <SelectItem key="false">Offline</SelectItem>
+                    </Select>
+                  )}
+                />
+
                 <Controller
                   name="region"
                   control={control} // use control for connect input with react hook form, meaning input value will be managed by react hook form

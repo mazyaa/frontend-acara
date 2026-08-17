@@ -5,12 +5,20 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import AppShell from "@/components/commons/AppShell";
 import { ToasterProvider } from "@/context/ToasterContext";
+import { onErrorHandler } from "@/libs/axios/responseHandler";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false, // if change tab, do not refetch
       retry: false, // if fail, do not retry refetch
+      throwOnError(error) {
+        onErrorHandler(error); // set signout if jwt expired
+        return false;
+      },
+    },
+    mutations: {
+      onError: onErrorHandler
     },
   },
 });
