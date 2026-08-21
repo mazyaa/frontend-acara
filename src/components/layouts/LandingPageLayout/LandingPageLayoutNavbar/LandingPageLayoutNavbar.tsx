@@ -31,13 +31,7 @@ const LandingPageLayoutNavbar = () => {
   const { dataProfile } = useLandingPageLayoutNavbar();
 
   return (
-    <Navbar
-      maxWidth="full"
-      className="max-w-screen-3xl 3xl:container"
-      isBordered
-      isBlurred={false}
-      shouldHideOnScroll
-    >
+    <Navbar maxWidth="full" isBordered isBlurred={false} shouldHideOnScroll>
       <div className="flex items-center gap-8">
         <NavbarBrand as={Link} href="/">
           <Image
@@ -148,7 +142,7 @@ const LandingPageLayoutNavbar = () => {
                 "font-bold text-danger-500": router.pathname === item.href,
               })}
             >
-                <Link href={item.href}>{item.label}</Link>
+              <Link href={item.href}>{item.label}</Link>
             </NavbarMenuItem>
           ))}
           {session.status === "authenticated" ? (
@@ -163,9 +157,7 @@ const LandingPageLayoutNavbar = () => {
               >
                 <Link href="/admin/dashboard">Admin</Link>
               </NavbarMenuItem>
-              <NavbarMenuItem
-                className="font-medium text-default-700 hover:text-danger"
-              >
+              <NavbarMenuItem className="font-medium text-default-700 hover:text-danger">
                 <Link href="/member/profile">Profile</Link>
               </NavbarMenuItem>
               <NavbarMenuItem>
@@ -182,19 +174,19 @@ const LandingPageLayoutNavbar = () => {
             </Fragment>
           ) : (
             <Fragment>
-                {BUTTON_ITEMS.map((item) => (
-                  <NavbarMenuItem key={`button-${item.label}`}>
-                    <Button
-                        as={Link}
-                        href={item.href}
-                        color="danger"
-                        className="mt-2 w-full"
-                        variant={item.variant as ButtonProps["variant"]}
-                    >
-                      {item.label}
-                    </Button>
-                  </NavbarMenuItem>
-                ))}
+              {BUTTON_ITEMS.map((item) => (
+                <NavbarMenuItem key={`button-${item.label}`}>
+                  <Button
+                    as={Link}
+                    href={item.href}
+                    color="danger"
+                    className="mt-2 w-full"
+                    variant={item.variant as ButtonProps["variant"]}
+                  >
+                    {item.label}
+                  </Button>
+                </NavbarMenuItem>
+              ))}
             </Fragment>
           )}
         </NavbarMenu>

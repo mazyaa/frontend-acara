@@ -1,8 +1,11 @@
+import HomeSlider from "./HomeSlider";
+import useHome from "./HomeSlider/useHome";
+
 const HomePage = () => {
+    const { dataBanners, isLoadingBanners } = useHome();
     return (
         <div>
-            <h1>Welcome to the Home Page</h1>
-            <p>This is the main content of the home page.</p>
+            <HomeSlider banners={dataBanners?.data} isLoadingBanners={isLoadingBanners} />
         </div>
     )
 };
