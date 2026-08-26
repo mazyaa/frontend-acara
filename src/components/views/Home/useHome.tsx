@@ -1,4 +1,4 @@
-import { LIMIT_BANNER, LIMIT_EVENT, PAGE_DEFAULT } from "@/constants/list.constants";
+import { LIMIT_BANNER, LIMIT_CATEGORY, LIMIT_EVENT, PAGE_DEFAULT } from "@/constants/list.constants";
 import bannerServices from "@/services/banner.services";
 import categoryServices from "@/services/category.service";
 import eventServices from "@/services/event.services";
@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const useHome = () => {
     const getCategories = async () => {
-        let params = `limit=${LIMIT_BANNER}&page=${PAGE_DEFAULT}`;
+        let params = `limit=${LIMIT_CATEGORY}&page=${PAGE_DEFAULT}`;
 
         const res = await categoryServices.getCategories(params);
 

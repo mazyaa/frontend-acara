@@ -5,12 +5,10 @@ import { useRouter } from "next/router";
 
 const useEvent = () => {
     const router = useRouter();
-    const { currentLimit, currentPage } = useChangeUrl();
+    const { currentLimit, currentPage, currentCategory, currentIsFeatured, currentIsOnline } = useChangeUrl();
 
     const getEvents = async () => {
-        let params = `limit=${currentLimit}&page=${currentPage}`; // construct query params
-
-        // call event service to get events
+        let params = `limit=${currentLimit}&page=${currentPage}&category=${currentCategory}&isFeatured=${currentIsFeatured}&isOnline=${currentIsOnline}&isPublish=true`; // construct query params
         const res = await eventServices.getAllEvents(params);
         const { data } = res;
         return data;
@@ -23,7 +21,7 @@ const useEvent = () => {
         isLoading: isLoadingEvents,
         isRefetching: isRefetchingEvents,
     } = useQuery({
-        queryKey: ['Events', currentPage, currentLimit], // for caching
+        queryKey: ['Events', currentPage, currentLimit, currentCategory, currentIsFeatured, currentIsOnline], // for caching
         queryFn: getEvents, // for fetching data, but must be return a promise
         enabled: router.isReady && !!currentPage && !!currentLimit, // is a dependency the useQuery is run by that value or condition is true
     })
