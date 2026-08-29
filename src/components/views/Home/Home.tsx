@@ -27,15 +27,16 @@ const HomePage = () => {
         title="Featured Events"
         events={dataFeaturedEvents?.data}
         isLoading={isLoadingFeaturedEvents}
+        urlMore="/event?isFeatured=true"
       />
       <Skeleton
         isLoaded={!isLoadingBanners}
-        className="mb-16 h-[20vw] w-full rounded-2xl px-g lg:px-0"
+        className="mb-16 h-[20vw] w-full rounded-2xl px-6 lg:px-0"
       >
         <Image
           src={dataBanners && dataBanners?.data[1]?.image}
           alt="banner"
-          className="h-[20vw] w-full rounded-2xl object-cover object-center"
+          className="h-[20vw] rounded-2xl object-cover w-full"
           width={1920}
           height={800}
         />

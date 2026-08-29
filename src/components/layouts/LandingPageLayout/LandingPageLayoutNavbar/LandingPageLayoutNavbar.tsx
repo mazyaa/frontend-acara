@@ -15,9 +15,9 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
+  Link,
 } from "@heroui/react";
 import Image from "next/image";
-import Link from "next/link";
 import { NAV_ITEMS, BUTTON_ITEMS } from "../LandingPageLayout.constant";
 import { useRouter } from "next/router";
 import { CiSearch } from "react-icons/ci";
@@ -134,15 +134,21 @@ const LandingPageLayoutNavbar = () => {
           </div>
         )}
 
+        {/* Mobile Menu */}
         <NavbarMenu className="gap-4">
           {NAV_ITEMS.map((item) => (
-            <NavbarMenuItem
-              key={`nav-${item.label}`}
-              className={cn("font-medium text-default-700 hover:text-danger", {
-                "font-bold text-danger-500": router.pathname === item.href,
-              })}
-            >
-              <Link href={item.href}>{item.label}</Link>
+            <NavbarMenuItem key={`nav-${item.label}`}>
+              <Link
+                href={item.href}
+                className={cn(
+                  "font-medium text-default-700 hover:text-danger",
+                  {
+                    "font-bold text-danger-500": router.pathname === item.href,
+                  },
+                )}
+              >
+                {item.label}
+              </Link>
             </NavbarMenuItem>
           ))}
           {session.status === "authenticated" ? (

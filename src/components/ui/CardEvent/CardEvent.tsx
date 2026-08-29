@@ -28,7 +28,7 @@ const CardEvent = (props: PropTypes) => {
             <CardBody>
         <Image
           alt="cover"
-          src={`${event?.banner}` || "/images/default-banner.jpg"}
+          src={event?.banner || "/images/ilustration/no-data.svg"}
           width={1920}
           height={1080}
           className="aspect-video rounded-lg object-cover"

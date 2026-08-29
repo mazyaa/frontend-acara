@@ -19,7 +19,7 @@ interface IEvent {
     region: string;
     coordinates: number[];
   };
-  banner?: string | FileList;
+  banner?: string;
 }
 
 interface IEventForm extends IEvent {
