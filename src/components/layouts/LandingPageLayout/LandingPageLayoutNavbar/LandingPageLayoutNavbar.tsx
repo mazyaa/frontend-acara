@@ -16,19 +16,31 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
   Link,
+  Listbox,
+  ListboxItem,
+  Spinner,
 } from "@heroui/react";
 import Image from "next/image";
 import { NAV_ITEMS, BUTTON_ITEMS } from "../LandingPageLayout.constant";
 import { useRouter } from "next/router";
 import { CiSearch } from "react-icons/ci";
 import { signOut, useSession } from "next-auth/react";
-import useLandingPageLayoutNavbar from "./useLandingPageLayoutNavabr";
+import useLandingPageLayoutNavbar from "./useLandingPageLayoutNavbar";
 import { Fragment } from "react";
+import { IEvent } from "@/types/Event";
 
 const LandingPageLayoutNavbar = () => {
   const router = useRouter();
   const session = useSession();
-  const { dataProfile } = useLandingPageLayoutNavbar();
+  const {
+    dataProfile,
+    dataEventsSearch,
+    isLoadingEventsSearch,
+    isRefetchingEventsSearch,
+    handleSearch,
+    search,
+    setSearch,
+  } = useLandingPageLayoutNavbar();
 
   return (
     <Navbar maxWidth="full" isBordered isBlurred={false} shouldHideOnScroll>
@@ -66,9 +78,40 @@ const LandingPageLayoutNavbar = () => {
             className="w-[300px]"
             placeholder="Search Event"
             startContent={<CiSearch />}
-            onClear={() => {}}
-            onChange={() => {}}
+            onClear={() => setSearch("")}
+            onChange={handleSearch}
           />
+
+          {search !== "" && (
+            <Listbox
+              items={dataEventsSearch?.data || []}
+              className="ronded-xl absolute right-0 top-12 border bg-white"
+            >
+              {!isRefetchingEventsSearch && !isLoadingEventsSearch ? (
+                (item: IEvent) => (
+                  <ListboxItem key={item._id} href={`/event/${item.slug}`}>
+                    <div className="flex items-center gap-2">
+                      <Image
+                      src={
+                        item.banner || "/images/general/banner-placeholder.png"
+                      }
+                      alt={`${item.name} Banner`}
+                      className="w-2/5 rounded-md"
+                      width={100}
+                      height={40}
+                    />
+
+                    <p className="w-3/5 text-wrap">{item.name}</p>
+                    </div>
+                  </ListboxItem>
+                )
+              ) : (
+                <ListboxItem key="loading">
+                  <Spinner color="danger" size="sm" className="mx-auto" />
+                </ListboxItem>
+              )}
+            </Listbox>
+          )}
         </NavbarItem>
 
         {session.status === "authenticated" ? (
