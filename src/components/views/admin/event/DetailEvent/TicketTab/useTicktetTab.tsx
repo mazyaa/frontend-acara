@@ -6,7 +6,7 @@ const useTicketTab = () => {
   const { query, isReady } = useRouter();
 
   const getTicketsByEventId = async () => {
-    const { data } = await ticketServices.getTicketByEventId(`${query.id}`);
+    const { data } = await ticketServices.getTicketsByEventId(`${query.id}`);
 
     return data.data;
   };

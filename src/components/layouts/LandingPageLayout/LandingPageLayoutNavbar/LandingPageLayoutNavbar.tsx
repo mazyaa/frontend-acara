@@ -126,7 +126,6 @@ const LandingPageLayoutNavbar = () => {
                   alt={"User Avatar"}
                   className="cursor-pointer"
                   showFallback // Show fallback image if the src is not available
-                  name={dataProfile?.fullName || "User"}
                 />
               </DropdownTrigger>
               <DropdownMenu>

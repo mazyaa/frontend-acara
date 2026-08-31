@@ -9,6 +9,8 @@ const eventServices = {
         instance.post(`${endpoint.EVENT}`, payload),
     getEventById: (id: string) => 
         instance.get(`${endpoint.EVENT}/${id}`),
+    getEventBySlug: (slug: string) => 
+        instance.get(`${endpoint.EVENT}/${slug}/slug`),
     updateEvent: (id: string, payload: IEvent) => 
         instance.put(`${endpoint.EVENT}/${id}`, payload),
     searchLocationByRegency: (name: string) => 
