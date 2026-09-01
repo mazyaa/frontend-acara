@@ -1,14 +1,27 @@
-import { BreadcrumbItem, Breadcrumbs, Skeleton, Tab, Tabs } from "@heroui/react";
+import {
+  BreadcrumbItem,
+  Breadcrumbs,
+  Skeleton,
+  Tab,
+  Tabs,
+} from "@heroui/react";
 import useDetailEvent from "./useDetailEvent";
 import { FaClock, FaLocationDot } from "react-icons/fa6";
 import { convertTime } from "@/utils/date";
 import Image from "next/image";
 import DetailEventTicket from "./DetailEventTicket";
 import { ITicket } from "@/types/Ticket";
+import DetailEventCart from "./DetailEventCart";
 
 const DetailEvent = () => {
-  const { dataDetailEvent, isLoadingDetailEvent, dataTicket, isLoadingTicket } =
-    useDetailEvent();
+  const {
+    dataDetailEvent,
+    dataTicket,
+    handleAddToCart,
+    handleChangeQuantity,
+    cart,
+    dataTicketInCart,
+  } = useDetailEvent();
   return (
     <div className="px-8 md:px-0">
       <Skeleton
@@ -64,7 +77,7 @@ const DetailEvent = () => {
           </Skeleton>
 
           <Skeleton
-            className="aspect-video w-full rounded-lg mb-4"
+            className="mb-4 aspect-video w-full rounded-lg"
             isLoaded={!!dataDetailEvent?.banner}
           >
             <Image
@@ -78,19 +91,44 @@ const DetailEvent = () => {
 
           <Tabs aria-label="Tabs with different styles" fullWidth>
             <Tab key="Description" title="Description">
-              <h2 className="text-xl font-semibold text-foreground-700">About Event</h2>
-              <Skeleton className="mt-2 h-32 w-full rounded-lg" isLoaded={!!dataDetailEvent?.description}>
-                <p className="text-foreground-500">{dataDetailEvent?.description}</p>
+              <h2 className="text-xl font-semibold text-foreground-700">
+                About Event
+              </h2>
+              <Skeleton
+                className="mt-2 h-32 w-full rounded-lg"
+                isLoaded={!!dataDetailEvent?.description}
+              >
+                <p className="text-foreground-500">
+                  {dataDetailEvent?.description}
+                </p>
               </Skeleton>
             </Tab>
 
             <Tab key="Ticket" title="Ticket">
-              <h2 className="text-xl font-semibold text-foreground-700">Ticket</h2>
+              <h2 className="text-xl font-semibold text-foreground-700">
+                Ticket
+              </h2>
               <div className="mt-2 flex flex-col gap-8">
-                {dataTicket?.map((ticket: ITicket) => <DetailEventTicket key={`ticket-${ticket._id}`} ticket={ticket} />)}
+                {dataTicket?.map((ticket: ITicket) => (
+                  <DetailEventTicket
+                    key={`ticket-${ticket._id}`}
+                    ticket={ticket}
+                    cart={cart}
+                    handleAddToCart={() =>
+                      handleAddToCart(`${ticket._id}` || "")
+                    }
+                  />
+                ))}
               </div>
             </Tab>
           </Tabs>
+        </div>
+        <div className="w-full lg:w-2/6">
+          <DetailEventCart
+            cart={cart}
+            dataTicketInCart={dataTicketInCart}
+            onChangeQuantity={handleChangeQuantity}
+          />
         </div>
       </div>
     </div>

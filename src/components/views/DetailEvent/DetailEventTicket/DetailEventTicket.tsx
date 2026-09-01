@@ -1,4 +1,4 @@
-import { ITicket } from "@/types/Ticket";
+import { ICart, ITicket } from "@/types/Ticket";
 import { convertIDR } from "@/utils/currency";
 import { Accordion, AccordionItem, Button, Card, Chip } from "@heroui/react";
 import { useSession } from "next-auth/react";
@@ -6,10 +6,12 @@ import { useSession } from "next-auth/react";
 interface PropTypes {
   key?: string;
   ticket: ITicket;
+  cart: ICart;
+  handleAddToCart: () => void;
 }
 
 const DetailEventTicket = (props: PropTypes) => {
-  const { key, ticket } = props;
+  const { key, ticket, cart, handleAddToCart } = props;
   const session = useSession();
   return (
     <Card className="px-4 pb-4" key={key}>
@@ -48,7 +50,9 @@ const DetailEventTicket = (props: PropTypes) => {
             size="md"
             color="warning"
             variant="bordered"
-            className="font-bold text-warning disabled:text-foreground-500 disabled:opacity-20"
+            className="font-bold text-warning disabled:text-foreground-300 disabled:bg-foreground-100 disabled:border-foreground-100"
+            disabled={cart.ticket === ticket._id}
+            onPress={handleAddToCart}
           >
             Add to Cart
           </Button>
