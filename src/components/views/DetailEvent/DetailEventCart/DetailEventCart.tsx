@@ -1,19 +1,26 @@
 import { ICart, ITicket } from "@/types/Ticket";
 import { convertIDR } from "@/utils/currency";
-import { Button, Card, CardBody, CardFooter, Divider } from "@heroui/react";
+import { Button, Card, CardBody, CardFooter, Divider, Spinner } from "@heroui/react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface PropTypes {
   cart: ICart;
   dataTicketInCart: ITicket;
   onChangeQuantity: (type: "increment" | "decrement") => void;
+  onCreateOrder?: () => void;
+  isPendingCreateOrder?: boolean;
 }
 
 const DetailEventCart = (props: PropTypes) => {
-  const { cart, dataTicketInCart, onChangeQuantity } = props;
-
+  const { cart, dataTicketInCart, onChangeQuantity, onCreateOrder, isPendingCreateOrder } = props;
+  const session = useSession();
+  const router = useRouter();
   return (
     <Card radius="lg" className="border-none p-6 lg:sticky lg:top-24">
-      <CardBody className="gap-3">
+      {session.status === "authenticated" ? (
+          <CardBody className="gap-3">
         <h2 className="text-lg font-semibold text-foreground-700">Cart</h2>
         {cart.ticket === "" ? (
           <p className="text-foreground-500">Your Cart is Empty!</p>
@@ -48,19 +55,30 @@ const DetailEventCart = (props: PropTypes) => {
           </div>
         )}
         <Divider />
-      </CardBody>
-
-      <CardFooter>
-        <Button
+        
+         <Button
           color="danger"
           size="md"
-          disabled={cart.quantity === 0}
+          disabled={cart.quantity === 0 || isPendingCreateOrder} 
           className="disabled:bg-danger-200"
           fullWidth
+          onPress={onCreateOrder}
         >
-          Checkout
+          {isPendingCreateOrder ? <Spinner size="sm" color="white"/> : "Checkout"}
         </Button>
-      </CardFooter>
+      </CardBody>
+      ): (
+        <CardBody>
+          <Button
+          color="danger"
+          size="lg"
+          as={Link}
+          href={`/auth/login?callbackUrl=/event/${router.query.slug}`}
+          >
+            Login for book ticket
+          </Button>
+        </CardBody>
+      )}
     </Card>
   );
 };
