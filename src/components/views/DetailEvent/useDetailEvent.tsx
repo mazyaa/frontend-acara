@@ -91,7 +91,17 @@ const useDetailEvent = () => {
       },
       onSuccess: (result) => {
         const transactionToken = result.payment.token;
-        (window as any).snap.pay(transactionToken);
+        (window as any).snap.pay(transactionToken, {
+          onSuccess: (snapResult: any) => {
+            router.push(`/payment/success?order_id=${snapResult.order_id}`)
+          },
+          onPending: (snapResult: any) => {
+            router.push(`/payment/progress?order_id=${snapResult.order_id}`)
+          },
+          onError: (snapResult: any) => {
+            router.push(`/payment/failed?order_id=${snapResult.order_id}`)
+          }
+        });
       },
     });
 

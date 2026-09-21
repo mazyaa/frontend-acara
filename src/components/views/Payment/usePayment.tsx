@@ -20,7 +20,7 @@ const usePayment = () => {
   const updateOrderStatus = async () => {
     const result = await orderServices.updateStatusTransaction(
       order_id as string,
-      status as string,
+      standarizeStatus(status as string),
     );
   };
 

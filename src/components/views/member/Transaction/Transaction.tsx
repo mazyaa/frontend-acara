@@ -1,0 +1,84 @@
+import DataTable from "@/components/ui/DataTable";
+import { Chip } from "@heroui/react";
+import { useRouter } from "next/router";
+import { Key, ReactNode, useCallback, useEffect } from "react";
+import useChangeUrl from "@/hooks/useChangeUrl";
+import DropdownActions from "@/components/commons/DropdownActions";
+import useTransaction from "./useTransaction";
+import { COLUMN_LIST_TRANSACTION } from "./Transaction.constants";
+import { convertIDR } from "@/utils/currency";
+
+const Transaction = () => {
+  const { push, isReady, query } = useRouter();
+  const {
+    dataTransactions,
+    isLoadingTransactions,
+    isRefetchingTransactions,
+  // refetchTransactions,
+  } = useTransaction();
+
+  const { setUrl } = useChangeUrl();
+
+  useEffect(() => {
+    if (isReady) {
+      setUrl();
+    }
+  }, [isReady]);
+
+  const renderCell = useCallback(
+    // use useCallback works to optimize performance
+    // use useCallback to memoize the function, so it only re-created when dependencies change
+    (transaction: Record<string, unknown>, columnKey: Key) => {
+      // Key = string | number
+      const cellValue = transaction[columnKey as keyof typeof transaction];
+
+      switch (columnKey) {
+        case "status":
+          return (
+            <Chip
+              variant="flat"
+              color={cellValue === true ? "primary" : "danger"}
+            >
+              {cellValue as ReactNode}
+            </Chip>
+          );
+        case "total":
+          return convertIDR(cellValue as number);
+        case "actions":
+          return (
+            <DropdownActions
+              detailNameDropdown={"Detail Transaction"}
+              keyDetailButton={"detail-transaction-button"}
+              onPressDetailButton={() =>
+                push(`/member/transaction/${transaction._id}`)
+              }
+              hideButtonDelete
+            />
+          );
+        default:
+          return cellValue as ReactNode;
+      }
+    },
+    [push],
+  );
+
+  return (
+    <section>
+      {Object.keys(query).length > 0 && (
+        <DataTable
+          columns={COLUMN_LIST_TRANSACTION}
+          data={dataTransactions?.data || []}
+          emptyContent="No transaction found"
+          isLoading={isLoadingTransactions || isRefetchingTransactions}
+          renderCell={renderCell}
+          placeholderSearch="Search by Title"
+          totalPages={
+            dataTransactions ? dataTransactions.pagination.totalPages : 1
+          } // default 1 if no data
+        />
+      )}
+    </section>
+  );
+};
+
+export default Transaction;
