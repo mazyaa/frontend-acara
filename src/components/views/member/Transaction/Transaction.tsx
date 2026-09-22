@@ -37,7 +37,7 @@ const Transaction = () => {
           return (
             <Chip
               variant="flat"
-              color={cellValue === true ? "primary" : "danger"}
+              color={cellValue === "completed " ? "primary" : "danger"}
             >
               {cellValue as ReactNode}
             </Chip>
@@ -50,7 +50,7 @@ const Transaction = () => {
               detailNameDropdown={"Detail Transaction"}
               keyDetailButton={"detail-transaction-button"}
               onPressDetailButton={() =>
-                push(`/member/transaction/${transaction._id}`)
+                push(`/member/transactions/${transaction.orderId}`)
               }
               hideButtonDelete
             />
