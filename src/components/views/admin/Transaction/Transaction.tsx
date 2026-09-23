@@ -1,5 +1,5 @@
 import DataTable from "@/components/ui/DataTable";
-import { Chip } from "@heroui/react";
+import { Chip, useDisclosure } from "@heroui/react";
 import { useRouter } from "next/router";
 import { Key, ReactNode, useCallback, useEffect } from "react";
 import useChangeUrl from "@/hooks/useChangeUrl";
@@ -7,6 +7,7 @@ import DropdownActions from "@/components/commons/DropdownActions";
 import useTransaction from "./useTransaction";
 import { COLUMN_LIST_TRANSACTION } from "./Transaction.constants";
 import { convertIDR } from "@/utils/currency";
+import DeleteTransactionModal from "./DeleteTransactionModal/DeleteTransactionModal";
 
 const Transaction = () => {
   const { push, isReady, query } = useRouter();
@@ -14,10 +15,14 @@ const Transaction = () => {
     dataTransactions,
     isLoadingTransactions,
     isRefetchingTransactions,
-  // refetchTransactions,
+    refetchTransactions,
+    selectedId,
+    setSelectedId,
   } = useTransaction();
 
   const { setUrl } = useChangeUrl();
+
+  const deleteTransactionModal = useDisclosure();
 
   useEffect(() => {
     if (isReady) {
@@ -47,12 +52,10 @@ const Transaction = () => {
         case "actions":
           return (
             <DropdownActions
-              detailNameDropdown={"Detail Transaction"}
-              keyDetailButton={"detail-transaction-button"}
-              onPressDetailButton={() =>
-                push(`/member/transactions/${transaction.orderId}`)
-              }
-              hideButtonDelete
+              onPressDeleteButton={() => {
+                setSelectedId(`${transaction.orderId}`);
+                deleteTransactionModal.onOpen();
+              }}
             />
           );
         default:
@@ -77,6 +80,13 @@ const Transaction = () => {
           } // default 1 if no data
         />
       )}
+
+      <DeleteTransactionModal
+        {...deleteTransactionModal}
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
+        refetchTransactions={refetchTransactions}
+      />
     </section>
   );
 };
