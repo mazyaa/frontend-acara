@@ -52,6 +52,12 @@ const Transaction = () => {
         case "actions":
           return (
             <DropdownActions
+              keyDetailButton={`detail-${transaction?.orderId}`}
+              keyDeleteButton={`delete-${transaction?.orderId}`}
+              detailNameDropdown="Detail Transaction"
+              onPressDetailButton={() => {
+                push(`/admin/transactions/${transaction?.orderId}`);
+              }}
               onPressDeleteButton={() => {
                 setSelectedId(`${transaction.orderId}`);
                 deleteTransactionModal.onOpen();
