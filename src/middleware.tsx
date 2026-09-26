@@ -31,22 +31,22 @@ export async function middleware(request: NextRequest) {
     }
 
     if (pathname === '/admin') {
-        return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+        return NextResponse.redirect(new URL('/admin/event', request.url));
     }
 
-    // if (pathname === '/member') {
-    //    if (!token) {
-    //         const url = new URL('/auth/login', request.url); //request.url is a base URL example: http://localhost:3000/ continued with relative path so https://localhost:3000/auth/login
-    //         url.searchParams.set('callbackUrl', encodeURI(request.url)); // set callbackUrl to redirect user after login (so they can continue to the page they were trying to access)
-    //         return NextResponse.redirect(url);
-    //     }
-    // }
-
-     if (pathname === '/admin') {
-        return NextResponse.redirect(new URL('/member/dashboard', request.url));
+    if (pathname === '/member') {
+       if (!token) {
+            const url = new URL('/auth/login', request.url); //request.url is a base URL example: http://localhost:3000/ continued with relative path so https://localhost:3000/auth/login
+            url.searchParams.set('callbackUrl', encodeURI(request.url)); // set callbackUrl to redirect user after login (so they can continue to the page they were trying to access)
+            return NextResponse.redirect(url);
+        }
+    }
+    
+     if (pathname === '/member') {
+        return NextResponse.redirect(new URL('/member/profile', request.url));
     }
 }
 
 export const config = {
-    matcher : ['/admin/:path*'],
+    matcher : ['/admin/:path*', '/member/:path*', '/auth/login', '/auth/register'],
 }
