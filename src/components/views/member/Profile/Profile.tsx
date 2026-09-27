@@ -2,6 +2,7 @@ import { Tab, Tabs } from "@heroui/react";
 import useProfile from "./useProfile";
 import PictureTab from "./PictureTab";
 import InfoTab from "./InfoTab";
+import SecurityTab from "./securityTab";
 
 const DetailEvent = () => {
   const {
@@ -28,6 +29,9 @@ const DetailEvent = () => {
           onUpdate={handleUpdateProfile}
           isSuccessUpdate={isSuccessMutateUpdateProfile}
         />
+      </Tab>
+      <Tab key="security" title="Security">
+        <SecurityTab />
       </Tab>
     </Tabs>
   );

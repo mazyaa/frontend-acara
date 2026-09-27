@@ -92,16 +92,17 @@ const LandingPageLayoutNavbar = () => {
                   <ListboxItem key={item._id} href={`/event/${item.slug}`}>
                     <div className="flex items-center gap-2">
                       <Image
-                      src={
-                        item.banner || "/images/general/banner-placeholder.png"
-                      }
-                      alt={`${item.name} Banner`}
-                      className="w-2/5 rounded-md"
-                      width={100}
-                      height={40}
-                    />
+                        src={
+                          item.banner ||
+                          "/images/general/banner-placeholder.png"
+                        }
+                        alt={`${item.name} Banner`}
+                        className="w-2/5 rounded-md"
+                        width={100}
+                        height={40}
+                      />
 
-                    <p className="w-3/5 text-wrap">{item.name}</p>
+                      <p className="w-3/5 text-wrap">{item.name}</p>
                     </div>
                   </ListboxItem>
                 )
@@ -196,17 +197,24 @@ const LandingPageLayoutNavbar = () => {
           {session.status === "authenticated" ? (
             <Fragment>
               <NavbarMenuItem
-                className={cn(
-                  "font-medium text-default-700 hover:text-danger",
-                  {
-                    hidden: dataProfile?.role !== "admin",
-                  },
-                )}
+                className={cn({
+                  hidden: dataProfile?.role !== "admin",
+                })}
               >
-                <Link href="/admin/event">Admin</Link>
+                <Link
+                  href="/admin/event"
+                  className="font-medium text-default-700 hover:text-danger"
+                >
+                  Admin
+                </Link>
               </NavbarMenuItem>
-              <NavbarMenuItem className="font-medium text-default-700 hover:text-danger">
-                <Link href="/member/profile">Profile</Link>
+              <NavbarMenuItem>
+                <Link
+                  href="/member/profile"
+                  className="font-medium text-default-700 hover:text-danger"
+                >
+                  Profile
+                </Link>
               </NavbarMenuItem>
               <NavbarMenuItem>
                 <Button
